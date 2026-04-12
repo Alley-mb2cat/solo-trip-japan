@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 獨旅日本 ∣ 關西北陸慢行記</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
+
+  :root {
+    --ink: #2c2c2c;
+    --paper: #faf8f5;
+    --accent: #c0392b;
+    --accent-light: #f9e8e6;
+    --gold: #b8860b;
+    --gold-light: #fdf6e3;
+    --teal: #1a7a6d;
+    --teal-light: #e8f5f2;
+    --blue: #34609c;
+    --blue-light: #eaf1f8;
+    --muted: #8a8580;
+    --border: #e6e0d8;
+    --card: #ffffff;
+    --shadow: 0 2px 16px rgba(0,0,0,.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background:
+      linear-gradient(160deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
+    color: #fff;
+    overflow: hidden;
+    padding: 2rem;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(192,57,43,.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(26,122,109,.12) 0%, transparent 60%);
+  }
+
+  .hero-content { position: relative; z-index: 1; }
+
+  .hero-label {
+    font-size: .85rem;
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    opacity: .6;
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: .5rem;
+  }
+
+  .hero h1 span {
+    display: block;
+    font-size: .45em;
+    font-weight: 300;
+    letter-spacing: .15em;
+    opacity: .55;
+    margin-top: .4rem;
+  }
+
+  .hero-meta {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: .95rem;
+    opacity: .75;
+  }
+
+  .hero-meta div { display: flex; align-items: center; gap: .4rem; }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: float 2.5s ease-in-out infinite;
+    opacity: .4;
+    font-size: 1.4rem;
+  }
+
+  @keyframes float {
+    0%,100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  section { padding: 4rem 0; }
+
+  .section-title {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: .3rem;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    font-size: .9rem;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── Timeline ── */
+  .timeline {
+    position: relative;
+    padding-left: 2.5rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+
+  .day-card {
+    position: relative;
+    background: var(--card);
+    border-radius: 14px;
+    padding: 1.8rem 2rem;
+    margin-bottom: 1.8rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    transition: transform .2s, box-shadow .2s;
+  }
+
+  .day-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,.09);
+  }
+
+  .day-card::before {
+    content: '';
+    position: absolute;
+    left: -2.5rem;
+    top: 2rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    background: var(--paper);
+    z-index: 1;
+  }
+
+  .day-header {
+    display: flex;
+    align-items: baseline;
+    gap: .8rem;
+    margin-bottom: .8rem;
+    flex-wrap: wrap;
+  }
+
+  .day-num {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .day-date {
+    font-size: .85rem;
+    color: var(--muted);
+  }
+
+  .day-region {
+    font-size: .75rem;
+    padding: .15rem .6rem;
+    border-radius: 99px;
+    font-weight: 500;
+  }
+
+  .region-kyoto { background: var(--accent-light); color: var(--accent); }
+  .region-shiga { background: var(--gold-light); color: var(--gold); }
+  .region-kanazawa { background: var(--teal-light); color: var(--teal); }
+  .region-toyama { background: var(--blue-light); color: var(--blue); }
+
+  .day-body p {
+    font-size: .95rem;
+    margin-bottom: .5rem;
+  }
+
+  .day-body .main-plan {
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  .alternatives {
+    margin-top: .8rem;
+    padding: .8rem 1rem;
+    background: var(--paper);
+    border-radius: 10px;
+    border-left: 3px solid var(--gold);
+  }
+
+  .alternatives summary {
+    cursor: pointer;
+    font-size: .85rem;
+    font-weight: 500;
+    color: var(--gold);
+    user-select: none;
+  }
+
+  .alternatives ul {
+    margin-top: .5rem;
+    padding-left: 1.2rem;
+    font-size: .88rem;
+    color: var(--muted);
+  }
+
+  .alternatives li { margin-bottom: .25rem; }
+
+  .tip {
+    margin-top: .6rem;
+    font-size: .82rem;
+    color: var(--teal);
+    display: flex;
+    align-items: flex-start;
+    gap: .4rem;
+  }
+
+  .tip::before { content: '💡'; flex-shrink: 0; }
+
+  .hotel-info {
+    margin-top: .8rem;
+    padding: .6rem 1rem;
+    background: linear-gradient(135deg, #f0edf5, #ece8f4);
+    border-radius: 8px;
+    font-size: .88rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: wrap;
+  }
+
+  .hotel-info .hotel-name {
+    font-weight: 600;
+    color: #5b4a8a;
+  }
+
+  .hotel-info .breakfast-yes {
+    font-size: .75rem;
+    padding: .1rem .5rem;
+    border-radius: 99px;
+    background: var(--teal-light);
+    color: var(--teal);
+    font-weight: 500;
+  }
+
+  .hotel-info .breakfast-no {
+    font-size: .75rem;
+    padding: .1rem .5rem;
+    border-radius: 99px;
+    background: #fef3e2;
+    color: #c57b15;
+    font-weight: 500;
+  }
+
+  .transport-box {
+    margin-top: .8rem;
+    padding: .7rem 1rem;
+    background: linear-gradient(135deg, #eaf1f8, #e3ecf6);
+    border-radius: 8px;
+    border-left: 3px solid var(--blue);
+    font-size: .84rem;
+    line-height: 1.7;
+  }
+
+  .transport-box .transport-title {
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: .3rem;
+    font-size: .82rem;
+  }
+
+  .transport-box .route-step {
+    display: flex;
+    align-items: baseline;
+    gap: .4rem;
+    margin-bottom: .15rem;
+  }
+
+  .transport-box .step-icon {
+    flex-shrink: 0;
+    font-size: .75rem;
+  }
+
+  .transport-box .step-detail {
+    color: var(--ink);
+  }
+
+  .transport-box .step-note {
+    color: var(--muted);
+    font-size: .78rem;
+  }
+
+  .transport-box .jr-badge {
+    display: inline-block;
+    font-size: .68rem;
+    padding: .05rem .4rem;
+    border-radius: 4px;
+    background: #2e7d32;
+    color: #fff;
+    font-weight: 500;
+    vertical-align: middle;
+    margin-left: .3rem;
+  }
+
+  /* ── Budget ── */
+  .budget-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .budget-item {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 1.4rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .budget-item .label {
+    font-size: .82rem;
+    color: var(--muted);
+    margin-bottom: .3rem;
+  }
+
+  .budget-item .amount {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .budget-item .note {
+    font-size: .78rem;
+    color: var(--muted);
+    margin-top: .3rem;
+  }
+
+  .budget-total {
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    color: #fff;
+    border-radius: 14px;
+    padding: 1.8rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .budget-total .total-label {
+    font-size: 1rem;
+    opacity: .7;
+  }
+
+  .budget-total .total-amount {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .budget-bar {
+    margin-top: 2rem;
+  }
+
+  .bar-track {
+    height: 10px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+    display: flex;
+  }
+
+  .bar-seg {
+    height: 100%;
+    transition: width .6s ease;
+  }
+
+  .bar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .8rem 1.5rem;
+    margin-top: .8rem;
+    font-size: .8rem;
+    color: var(--muted);
+  }
+
+  .bar-legend span::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    margin-right: .4rem;
+    vertical-align: middle;
+  }
+
+  /* ── Packing ── */
+  .packing-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .packing-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 1.4rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+
+  .packing-card h4 {
+    font-size: .92rem;
+    font-weight: 700;
+    margin-bottom: .6rem;
+  }
+
+  .packing-card ul {
+    list-style: none;
+    font-size: .88rem;
+  }
+
+  .packing-card li {
+    padding: .2rem 0;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+  }
+
+  .packing-card li::before {
+    content: '☐';
+    color: var(--muted);
+    font-size: .75rem;
+  }
+
+  /* ── Footer ── */
+  footer {
+    text-align: center;
+    padding: 3rem 1rem;
+    font-size: .82rem;
+    color: var(--muted);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .timeline { padding-left: 1.8rem; }
+    .day-card { padding: 1.3rem 1.2rem; }
+    .day-card::before { left: -1.8rem; width: 12px; height: 12px; }
+    .budget-total .total-amount { font-size: 1.6rem; }
+  }
+
+  @media print {
+    .hero { min-height: auto; padding: 3rem 2rem; break-after: page; }
+    .day-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════ Hero ════════ -->
+<header class="hero">
+  <div class="hero-content">
+    <p class="hero-label">Solo Trip 2026</p>
+    <h1>
+      關西 · 北陸<br>慢行記
+      <span>京都 → 滋賀 → 金澤 → 富山</span>
+    </h1>
+    <div class="hero-meta">
+      <div>📅 5/13 — 5/21（9 天 8 夜）</div>
+      <div>💰 預算 NT$50,000 — 60,000</div>
+      <div>🎒 一人獨旅・隨性派</div>
+    </div>
+  </div>
+  <div class="scroll-hint">↓</div>
+</header>
+
+<!-- ════════ Itinerary ════════ -->
+<section>
+  <div class="container">
+    <h2 class="section-title">每日行程</h2>
+    <p class="section-sub">大方向固定，細節隨心所欲。每天都留有彈性空間。</p>
+
+    <div class="timeline">
+
+      <!-- D1 -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-num">Day 1</span>
+          <span class="day-date">5/13（三）</span>
+          <span class="day-region region-kyoto">京都</span>
+        </div>
+        <div class="day-body">
+          <p class="main-plan">🛬 06:00 落地關西空港 → 啟用 JR Pass → 京都飯店寄行李 → 傍晚鴨川散步</p>
+          <p>落地後直接啟用 JR Pass，搭 HARUKA 前往京都。輕鬆步調適應時差。</p>
+          <div class="transport-box">
+            <div class="transport-title">🚃 交通班次</div>
+            <div class="route-step">
+              <span class="step-icon">➊</span>
+              <span class="step-detail">關西空港 → 京都｜HARUKA 特急 06:30 發 → 07:45 着（約 75 分）<span class="jr-badge">JR Pass</span></span>
+            </div>
+            <div class="step-note">⚡ 首班 HARUKA 為 06:30，06:00 落地後可先取行李、購買 ICOCA、啟用 JR Pass</div>
+          </div>
+          <details class="alternatives">
+            <summary>也可以去...</summary>
+            <ul>
+              <li>錦市場逛逛吃早餐、買小食補體力</li>
+              <li>鴨川沿岸咖啡廳坐著發呆</li>
+              <li>河原町周邊隨意散策</li>
+              <li>先斗町晚餐小酌</li>
+            </ul>
+          </details>
+          <p class="tip">JR Pass 在 D1 啟用，HARUKA 自由席可直接搭乘。</p>
+          <div class="hotel-info">
+            🏨 <span class="hotel-name">Hotel Anteroom Kyoto</span>
+            <span class="breakfast-yes">含早餐</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- D2 -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-num">Day 2</span>
+          <span class="day-date">5/14（四）</span>
+          <span class="day-region region-shiga">滋賀</span>
+        </div>
+        <div class="day-body">
+          <p class="main-plan">🚄 京都 → 彥根城 → 長濱黑壁廣場 → 直接住長濱</p>
+          <p>國寶天守閣＋城下町散步，長濱老街的玻璃工藝值得一看。晚上直接入住。</p>
+          <div class="transport-box">
+            <div class="transport-title">🚃 交通班次</div>
+            <div class="route-step">
+              <span class="step-icon">➊</span>
+              <span class="step-detail">京都 → 彥根｜JR 琵琶湖線新快速（約 50 分）<span class="jr-badge">JR Pass</span></span>
+            </div>
+            <div class="route-step">
+              <span class="step-icon">➋</span>
+              <span class="step-detail">彥根 → 長濱｜JR 琵琶湖線（約 15 分）<span class="jr-badge">JR Pass</span></span>
+            </div>
+            <div class="step-note">⚡ 新快速每 15–30 分一班，不需劃位直接搭</div>
+          </div>
+          <details class="alternatives">
+            <summary>也可以去...</summary>
+            <ul>
+              <li>彥根城護城河遊船</li>
+              <li>夢京橋城堡路商店街午餐</li>
+              <li>長濱鐵道博物館（火車迷必去）</li>
+            </ul>
+          </details>
+          <p class="tip">彥根城的吉祥物彥根喵每天有固定登場時間，可查官網。</p>
+          <div class="hotel-info">
+            🏨 <span class="hotel-name">北琵琶湖格拉協飯店</span>
+            <span class="breakfast-yes">含早餐</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- D3 -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-num">Day 3</span>
+          <span class="day-date">5/15（五）</span>
+          <span class="day-region region-shiga">滋賀</span>
+        </div>
+        <div class="day-body">
+          <p class="main-plan">🚣 近江八幡水鄉巡遊 → La Collina 甜點草屋</p>
+          <p>手搖木船穿梭水鄉，La Collina 是藤森照信設計的奇幻建築。</p>
+          <details class="alternatives">
+            <summary>也可以去...</summary>
+            <ul>
+              <li>八幡堀散步拍照（不搭船也很美）</li>
+              <li>日牟禮八幡宮參拜</li>
+              <li>近江牛午餐（滋賀名物）</li>
+              <li>安土城跡探訪（信長迷推薦）</li>
+            </ul>
+          </details>
+          <p class="tip">La Collina 的年輪蛋糕現烤限定，平日比較不用排。</p>
+          <div class="hotel-info">
+            🏨 <span class="hotel-name">北琵琶湖格拉協飯店</span>
+            <span class="breakfast-yes">含早餐</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- D4 -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-num">Day 4</span>
+          <span class="day-date">5/16（六）</span>
+          <span class="day-region region-kanazawa">金澤</span>
+        </div>
+        <div class="day-body">
+          <p class="main-plan">🚄 長濱 → 敦賀轉車 → 金澤 → 傍晚東茶屋街攝影・主計町散策</p>
+          <p>移動日，在敦賀轉乘北陸新幹線直達金澤。抵達後用黃昏光線拍東茶屋街最美。</p>
+          <div class="transport-box">
+            <div class="transport-title">🚃 交通班次</div>
+            <div class="route-step">
+              <span class="step-icon">➊</span>
+              <span class="step-detail">長濱 → 敦賀｜JR 琵琶湖線 / 北陸本線（約 30 分）<span class="jr-badge">JR Pass</span></span>
+            </div>
+            <div class="route-step">
+              <span class="step-icon">➋</span>
+              <span class="step-detail">敦賀 → 金澤｜北陸新幹線つるぎ（約 45 分）<span class="jr-badge">JR Pass</span></span>
+            </div>
+            <div class="step-note">⚡ つるぎ班次參考：07:35 / 10:43 / 11:17 / 12:17 / 14:11 發（敦賀出發）</div>
+          </div>
+          <details class="alternatives">
+            <summary>也可以去...</summary>
+            <ul>
+              <li>近江町市場吃海鮮丼</li>
+              <li>金澤城公園散步</li>
+              <li>尾張町老街區咖啡廳</li>
+              <li>片町夜生活探索</li>
+            </ul>
+          </details>
+          <p class="tip">東茶屋街傍晚遊客少，拍照品質最好。敦賀站轉乘在同一站內，跟著指標走即可。</p>
+          <div class="hotel-info">
+            🏨 <span class="hotel-name">Hotel Pacific Kanazawa</span>
+            <span class="breakfast-no">無早餐</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- D5 -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-num">Day 5</span>
+          <span class="day-date">5/17（日）</span>
+          <span class="day-region region-kanazawa">金澤 → 五箇山 → 白川鄉 → 高山</span>
+        </div>
+        <div class="day-body">
+          <p class="main-plan">🏔️ KKDay 一日遊｜五箇山 → 白川鄉合掌村 → 飛驒高山老街</p>
+          <p>09:00 金澤站東口 4 號巴士站集合出發，觀光巴士一日遊免煩惱交通。</p>
+          <div class="transport-box">
+            <div class="transport-title">🚌 KKDay 觀光巴士一日遊（三星街道巴士）</div>
+            <div class="route-step">
+              <span class="step-icon">➊</span>
+              <span class="step-detail">09:00 金澤站東口出發</span>
+            </div>
+            <div class="route-step">
+              <span class="step-icon">➋</span>
+              <span class="step-detail">五箇山（停留約 40 分，含村上家民謠築子舞表演）</span>
+            </div>
+            <div class="route-step">
+              <span class="step-icon">➌</span>
+              <span class="step-detail">白川鄉合掌村（自由散策）</span>
+            </div>
+            <div class="route-step">
+              <span class="step-icon">➍</span>
+              <span class="step-detail">飛驒高山老街（停留約 110 分，江戶風情散步）</span>
+            </div>
+            <div class="route-step">
+              <span class="step-icon">➎</span>
+              <span class="step-detail">傍晚返回金澤站</span>
+            </div>
+            <div class="step-note">⚡ 車上有中/英/韓語導覽機可借用，1 人成團｜請提前 20 分鐘到集合地點</div>
+          </div>
+          <details class="alternatives">
+            <summary>也可以去...</summary>
+            <ul>
+              <li>荻町城跡展望台俯瞰白川鄉全景</li>
+              <li>和田家・長瀨家（開放參觀的合掌屋）</li>
+              <li>高山老街買飛驒牛串、醬油糰子</li>
+              <li>宮川朝市（如果有經過）</li>
+            </ul>
+          </details>
+          <p class="tip">KKDay 需提前預約！建議確認取消政策。集合地點在金澤站東口出來左邊。</p>
+          <div class="hotel-info">
+            🏨 <span class="hotel-name">Hotel Pacific Kanazawa</span>
+            <span class="breakfast-no">無早餐</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- D6 -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-num">Day 6</span>
+          <span class="day-date">5/18（一）</span>
+          <span class="day-region region-toyama">富山</span>
+        </div>
+        <div class="day-body">
+          <p class="main-plan">🌊 雨晴海岸 — 海中孤島 × 立山連峰雪山絕景</p>
+          <p>天氣好的話可以看到 3,000 公尺雪山從海面升起的奇景。</p>
+          <div class="transport-box">
+            <div class="transport-title">🚃 交通班次</div>
+            <div class="route-step">
+              <span class="step-icon">➊</span>
+              <span class="step-detail">金澤 → 新高岡｜北陸新幹線つるぎ（約 13 分）<span class="jr-badge">JR Pass</span></span>
+            </div>
+            <div class="route-step">
+              <span class="step-icon">➋</span>
+              <span class="step-detail">新高岡 → 高岡｜JR 城端線（約 3 分）<span class="jr-badge">JR Pass</span></span>
+            </div>
+            <div class="route-step">
+              <span class="step-icon">➌</span>
+              <span class="step-detail">高岡 → 雨晴｜JR 氷見線（約 20 分）<span class="jr-badge">JR Pass</span></span>
+            </div>
+            <div class="step-note">⚡ 全程 JR Pass 可用！氷見線班次較少（約 1 小時 1 班），建議先查好回程時刻</div>
+          </div>
+          <details class="alternatives">
+            <summary>也可以去...</summary>
+            <ul>
+              <li>高岡大佛＋山町筋土藏街</li>
+              <li>新湊內川（日本威尼斯）散步</li>
+              <li>氷見漁港午餐吃寒鰤魚</li>
+              <li>若天氣差，改去富山市玻璃美術館</li>
+            </ul>
+          </details>
+          <p class="tip">雨晴海岸看立山連峰需天氣清朗，建議早上前往。回程同路線反向搭乘。</p>
+          <div class="hotel-info">
+            🏨 <span class="hotel-name">Hotel Pacific Kanazawa</span>
+            <span class="breakfast-no">無早餐</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- D7 -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-num">Day 7</span>
+          <span class="day-date">5/19（二）</span>
+          <span class="day-region region-toyama">富山</span>
+        </div>
+        <div class="day-body">
+          <p class="main-plan">🌳 富山環水公園 — 世界最美星巴克所在地</p>
+          <p>悠閒的一天，在運河旁公園散步、喝咖啡、看風景。搭配「富山樂享券」（NT$150）可折抵景點。</p>
+          <div class="transport-box">
+            <div class="transport-title">🚃 交通班次</div>
+            <div class="route-step">
+              <span class="step-icon">➊</span>
+              <span class="step-detail">金澤 → 富山｜北陸新幹線（約 20 分）<span class="jr-badge">JR Pass</span></span>
+            </div>
+            <div class="step-note">⚡ かがやき 19 分 / はくたか 22 分 / つるぎ 23 分｜約每 20–30 分一班</div>
+          </div>
+          <details class="alternatives">
+            <summary>也可以去...</summary>
+            <ul>
+              <li>富山市中心路面電車隨意搭</li>
+              <li>富山縣美術館（屋頂遊樂場免費）</li>
+              <li>池田屋安兵衛（古早味手工製藥體驗）</li>
+              <li>白蝦亭吃富山白蝦天丼</li>
+              <li>回金澤半日也可以</li>
+            </ul>
+          </details>
+          <p class="tip">環水公園的星巴克清晨人少，配晨光很療癒。環水公園離富山站步行約 10 分鐘。富山樂享券可用於富山縣美術館、玻璃美術館等。</p>
+          <div class="hotel-info">
+            🏨 <span class="hotel-name">Hotel Pacific Kanazawa</span>
+            <span class="breakfast-no">無早餐</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- D8 -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-num">Day 8</span>
+          <span class="day-date">5/20（三）</span>
+          <span class="day-region region-kanazawa">金澤</span>
+        </div>
+        <div class="day-body">
+          <p class="main-plan">🎨 金澤美學日 — 兼六園 → 21 世紀美術館</p>
+          <p>日本三大名園＋超好拍的現代美術館，使用「金澤文化森林旅遊 2 日通票」（NT$200）一票玩到底。</p>
+          <details class="alternatives">
+            <summary>也可以去...</summary>
+            <ul>
+              <li>鈴木大拙館（極簡禪意空間）</li>
+              <li>金澤神社求學業</li>
+              <li>成巽閣（加賀藩細緻工藝）</li>
+              <li>長町武家屋敷跡散步</li>
+              <li>Fusion21 美術館餐廳午餐</li>
+            </ul>
+          </details>
+          <p class="tip">兼六園早上 7:00 前免費入園，人也最少。文化森林 2 日通票可通用兼六園、21 世紀美術館、金澤城公園等。</p>
+          <div class="hotel-info">
+            🏨 <span class="hotel-name">Hotel Pacific Kanazawa</span>
+            <span class="breakfast-no">無早餐</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- D9 -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-num">Day 9</span>
+          <span class="day-date">5/21（四）</span>
+          <span class="day-region region-kanazawa">金澤 → 回程</span>
+        </div>
+        <div class="day-body">
+          <p class="main-plan">🛍️ 金澤伴手禮採買 → 小松機場（16:55 起飛）</p>
+          <p>最後半天悠閒收尾，買完伴手禮再出發。</p>
+          <div class="transport-box">
+            <div class="transport-title">🚌 金澤 → 小松機場｜利木津巴士（約 45 分）</div>
+            <div class="route-step">
+              <span class="step-icon">🎯</span>
+              <span class="step-detail">建議搭 <strong>14:20</strong> 發 → 15:05 着（16:55 起飛前 1.5 小時到）</span>
+            </div>
+            <div class="route-step">
+              <span class="step-icon">🔄</span>
+              <span class="step-detail">備案：13:05 發 → 13:50 着（更充裕）</span>
+            </div>
+            <div class="step-note">⚡ 票價 ¥1,300（成人）｜金澤站西口搭乘｜不適用 JR Pass</div>
+          </div>
+          <details class="alternatives">
+            <summary>也可以去...</summary>
+            <ul>
+              <li>近江町市場最後巡禮</li>
+              <li>金澤百番街（車站內好買）</li>
+              <li>不室屋買麩饅頭伴手禮</li>
+              <li>提早到機場逛免稅店</li>
+            </ul>
+          </details>
+          <p class="tip">小松機場不大，提前 1.5 小時到即可。巴士時刻表每月調整，出發前再確認。</p>
+          <div class="hotel-info">
+            🏨 <span class="hotel-name">Hotel Pacific Kanazawa</span>
+            <span class="breakfast-no">無早餐</span>
+            <span style="font-size:.78rem;color:var(--muted);margin-left:auto;">退房日</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /timeline -->
+  </div>
+</section>
+
+<!-- ════════ Budget ════════ -->
+<section style="background:#fff;">
+  <div class="container">
+    <h2 class="section-title">預算規劃</h2>
+    <p class="section-sub">抓 NT$50,000 — 60,000，以下為各項估算。</p>
+
+    <div class="budget-grid">
+      <div class="budget-item">
+        <span class="label">✈️ 機票</span>
+        <span class="amount" style="color:var(--accent);">$14,000</span>
+        <span class="note">關空進・小松出</span>
+      </div>
+      <div class="budget-item">
+        <span class="label">🏨 住宿（8 晚）</span>
+        <span class="amount" style="color:var(--blue);">$11,000</span>
+        <span class="note">平均 $1,375/晚</span>
+      </div>
+      <div class="budget-item">
+        <span class="label">🚃 交通票券</span>
+        <span class="amount" style="color:var(--teal);">$3,800</span>
+        <span class="note">JR Pass + 巴士 + 市內</span>
+      </div>
+      <div class="budget-item">
+        <span class="label">🎫 景點門票</span>
+        <span class="amount" style="color:var(--gold);">$1,200</span>
+        <span class="note">彥根城 + 金澤 2 日通票 $200 + 富山樂享券 $150</span>
+      </div>
+      <div class="budget-item">
+        <span class="label">🎟️ 體驗預約</span>
+        <span class="amount" style="color:#d35400;">$1,800</span>
+        <span class="note">KKDay 一日遊 $1,500 + 野餐 $300</span>
+      </div>
+      <div class="budget-item">
+        <span class="label">🍜 伙食費</span>
+        <span class="amount" style="color:#e67e22;">$10,000</span>
+        <span class="note">每餐 ¥1,000–1,500 + 偶爾奢侈</span>
+      </div>
+      <div class="budget-item">
+        <span class="label">🛍️ 採買伴手禮</span>
+        <span class="amount" style="color:#8e44ad;">$8,000</span>
+        <span class="note">看心情，可多可少</span>
+      </div>
+      <div class="budget-item">
+        <span class="label">🛡️ 旅遊保險</span>
+        <span class="amount" style="color:var(--muted);">$850</span>
+        <span class="note">旅平險 + 不便險</span>
+      </div>
+      <div class="budget-item">
+        <span class="label">📶 雜支預備</span>
+        <span class="amount" style="color:var(--muted);">$2,000</span>
+        <span class="note">網卡、零食、意外花費</span>
+      </div>
+    </div>
+
+    <div class="budget-total">
+      <div>
+        <div class="total-label">預估總花費</div>
+      </div>
+      <div class="total-amount">NT$ 52,650</div>
+    </div>
+
+    <div class="budget-bar">
+      <div class="bar-track">
+        <div class="bar-seg" style="width:26.9%;background:var(--accent);"></div>
+        <div class="bar-seg" style="width:21.2%;background:var(--blue);"></div>
+        <div class="bar-seg" style="width:19.2%;background:#e67e22;"></div>
+        <div class="bar-seg" style="width:15.4%;background:#8e44ad;"></div>
+        <div class="bar-seg" style="width:7.3%;background:var(--teal);"></div>
+        <div class="bar-seg" style="width:3.3%;background:var(--gold);"></div>
+        <div class="bar-seg" style="width:6.7%;background:var(--muted);"></div>
+      </div>
+      <div class="bar-legend">
+        <span style="--c:var(--accent);">
+          <span style="background:var(--accent);width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:4px;vertical-align:middle;"></span>
+          機票 27%
+        </span>
+        <span>
+          <span style="background:var(--blue);width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:4px;vertical-align:middle;"></span>
+          住宿 21%
+        </span>
+        <span>
+          <span style="background:#e67e22;width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:4px;vertical-align:middle;"></span>
+          伙食 19%
+        </span>
+        <span>
+          <span style="background:#8e44ad;width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:4px;vertical-align:middle;"></span>
+          採買 15%
+        </span>
+        <span>
+          <span style="background:var(--teal);width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:4px;vertical-align:middle;"></span>
+          交通 7%
+        </span>
+        <span>
+          <span style="background:var(--gold);width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:4px;vertical-align:middle;"></span>
+          景點 3%
+        </span>
+        <span>
+          <span style="background:var(--muted);width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:4px;vertical-align:middle;"></span>
+          其他 7%
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ Packing ════════ -->
+<section>
+  <div class="container">
+    <h2 class="section-title">行李清單</h2>
+    <p class="section-sub">五月北陸氣溫約 15–25°C，早晚偏涼。</p>
+
+    <div class="packing-cols">
+      <div class="packing-card">
+        <h4>👕 衣物</h4>
+        <ul>
+          <li>薄外套 / 防風衣</li>
+          <li>短袖 × 4</li>
+          <li>長褲 × 2</li>
+          <li>輕便好走的鞋</li>
+          <li>折疊傘</li>
+        </ul>
+      </div>
+      <div class="packing-card">
+        <h4>📱 3C</h4>
+        <ul>
+          <li>手機 + 充電器</li>
+          <li>行動電源</li>
+          <li>日本網卡 / eSIM</li>
+          <li>相機（選配）</li>
+          <li>轉接頭（日本 A 型）</li>
+        </ul>
+      </div>
+      <div class="packing-card">
+        <h4>📄 證件</h4>
+        <ul>
+          <li>護照（效期 6 個月+）</li>
+          <li>電子機票</li>
+          <li>訂房確認信</li>
+          <li>旅遊保險單</li>
+          <li>JR Pass 兌換券</li>
+        </ul>
+      </div>
+      <div class="packing-card">
+        <h4>🧴 日用品</h4>
+        <ul>
+          <li>盥洗用品（可當地買）</li>
+          <li>常備藥品</li>
+          <li>防曬乳</li>
+          <li>夾鏈袋</li>
+          <li>環保購物袋</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ Footer ════════ -->
+<footer>
+  <div class="container">
+    <p>一個人的旅行，走到哪算哪 ✦</p>
+    <p style="margin-top:.3rem; font-size:.75rem;">Last updated: 2026-04-09</p>
+  </div>
+</footer>
+
+</body>
+</html>
