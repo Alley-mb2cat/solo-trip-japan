@@ -1848,10 +1848,26 @@ function initPacking() {
 
   document.querySelectorAll('.packing-card').forEach((card, ci) => {
     const ul = card.querySelector('ul');
+
+    // Clean up: remove extra items, delete buttons, add-item rows, and event listeners
+    ul.querySelectorAll('li[data-extra]').forEach(li => li.remove());
+    ul.querySelectorAll('.del-pack').forEach(b => b.remove());
+    const oldAddRow = card.querySelector('.add-item-row');
+    if (oldAddRow) oldAddRow.remove();
+
+    // Clone original items to strip old event listeners
     const origItems = ul.querySelectorAll('li');
+    origItems.forEach((li, ii) => {
+      const clone = li.cloneNode(false);
+      clone.textContent = li.textContent;
+      li.replaceWith(clone);
+    });
+
+    // Re-query after clone
+    const freshItems = ul.querySelectorAll('li');
 
     // Mark deleted original items
-    origItems.forEach((li, ii) => {
+    freshItems.forEach((li, ii) => {
       const delKey = ci + '-' + ii;
       if (deleted[delKey]) { li.style.display = 'none'; return; }
       setupPackItem(li, ci + '-orig-' + ii, checked);
@@ -1867,6 +1883,7 @@ function initPacking() {
     const extraList = extras[ci] || [];
     extraList.forEach((text, ei) => {
       const li = document.createElement('li');
+      li.setAttribute('data-extra', '1');
       li.textContent = text;
       setupPackItem(li, ci + '-extra-' + ei, checked);
       addDeleteBtn(li, () => {
@@ -1900,6 +1917,7 @@ function initPacking() {
       input.value = '';
       // Re-render this card's extras
       const newLi = document.createElement('li');
+      newLi.setAttribute('data-extra', '1');
       newLi.textContent = val;
       const newEi = ex[ci].length - 1;
       setupPackItem(newLi, ci + '-extra-' + newEi, getStore(PACKING_KEY));
@@ -2147,10 +2165,6 @@ async function cloudSync() {
 
     // 4. Re-render everything
     renderExpenses();
-    document.querySelectorAll('.packing-card').forEach(c => {
-      const addRow = c.querySelector('.add-item-row');
-      if (addRow) addRow.remove();
-    });
     initPacking();
     document.querySelectorAll('.itinerary-edit').forEach(s => s.remove());
     initItinerary();
