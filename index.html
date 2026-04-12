@@ -2158,11 +2158,32 @@ async function cloudSync() {
       }
     });
 
-    // 3. Push merged data back to cloud (POST as text/plain to avoid CORS preflight)
-    await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(merged),
+    // 3. Push merged data back to cloud (form + iframe, works on all browsers)
+    await new Promise((resolve) => {
+      const iframe = document.createElement('iframe');
+      iframe.name = '_syncFrame';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = url;
+      form.target = iframe.name;
+
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'payload';
+      input.value = JSON.stringify(merged);
+      form.appendChild(input);
+
+      document.body.appendChild(form);
+      form.submit();
+
+      setTimeout(() => {
+        form.remove();
+        iframe.remove();
+        resolve();
+      }, 2500);
     });
 
     // 4. Re-render everything
