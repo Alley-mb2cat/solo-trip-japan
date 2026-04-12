@@ -749,59 +749,151 @@
   }
 
   /* ── Editable Itinerary ── */
-  .day-body .edit-bar {
-    display: flex;
-    gap: .4rem;
-    margin-top: .6rem;
+  .itinerary-edit {
+    margin-top: .8rem;
+    padding: .8rem 1rem;
+    background: #fff8e1;
+    border-radius: 10px;
+    border-left: 3px solid #f9a825;
   }
 
-  .btn-edit {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: .25rem .6rem;
+  .itinerary-edit-title {
+    font-size: .78rem;
+    font-weight: 600;
+    color: #f9a825;
+    margin-bottom: .5rem;
+  }
+
+  .itinerary-edit ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .itinerary-edit li {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .25rem 0;
+    font-size: .88rem;
+  }
+
+  .itinerary-edit li::before {
+    content: '•';
+    color: #f9a825;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .itinerary-edit li .item-text {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
     font-family: 'Noto Sans TC', sans-serif;
-    font-size: .75rem;
+    font-size: .88rem;
+    color: var(--ink);
+    padding: .15rem .3rem;
+    border-radius: 4px;
+  }
+
+  .itinerary-edit li .item-text:focus {
+    outline: none;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(249,168,37,.3);
+  }
+
+  .itinerary-edit li .btn-del-item {
+    background: none;
+    border: none;
     color: var(--muted);
     cursor: pointer;
-    transition: all .2s;
+    font-size: .75rem;
+    padding: .15rem .3rem;
+    flex-shrink: 0;
+    opacity: .5;
+    transition: opacity .2s;
   }
 
-  .btn-edit:hover { border-color: var(--blue); color: var(--blue); }
+  .itinerary-edit li .btn-del-item:hover { opacity: 1; color: var(--accent); }
 
-  .edit-textarea {
-    width: 100%;
-    min-height: 60px;
-    padding: .5rem .7rem;
-    border: 1px solid var(--blue);
-    border-radius: 8px;
+  .itinerary-add-row {
+    display: flex;
+    gap: .4rem;
+    margin-top: .4rem;
+  }
+
+  .itinerary-add-row input {
+    flex: 1;
+    padding: .35rem .5rem;
+    border: 1px dashed #e0d5b5;
+    border-radius: 6px;
     font-family: 'Noto Sans TC', sans-serif;
-    font-size: .92rem;
-    line-height: 1.6;
-    resize: vertical;
-    background: var(--paper);
+    font-size: .82rem;
+    background: rgba(255,255,255,.6);
     color: var(--ink);
   }
 
-  .edit-textarea:focus { outline: none; box-shadow: 0 0 0 2px rgba(52,96,156,.15); }
+  .itinerary-add-row input:focus { outline: none; border-color: #f9a825; background: #fff; }
 
-  .user-note {
-    margin-top: .6rem;
-    padding: .6rem .8rem;
-    background: #fff8e1;
-    border-radius: 8px;
-    border-left: 3px solid #f9a825;
-    font-size: .85rem;
-    line-height: 1.6;
-    white-space: pre-wrap;
-  }
-
-  .user-note-label {
-    font-size: .72rem;
-    color: #f9a825;
+  .itinerary-add-row button {
+    padding: .3rem .7rem;
+    border: none;
+    border-radius: 6px;
+    background: #f9a825;
+    color: #fff;
+    font-size: .78rem;
     font-weight: 600;
-    margin-bottom: .2rem;
+    cursor: pointer;
+    flex-shrink: 0;
   }
+
+  /* ── Packing Add/Delete ── */
+  .packing-card .add-item-row {
+    display: flex;
+    gap: .3rem;
+    margin-top: .5rem;
+    padding-top: .5rem;
+    border-top: 1px dashed var(--border);
+  }
+
+  .packing-card .add-item-row input {
+    flex: 1;
+    padding: .3rem .5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: .82rem;
+    background: var(--paper);
+  }
+
+  .packing-card .add-item-row input:focus { outline: none; border-color: var(--teal); }
+
+  .packing-card .add-item-row button {
+    padding: .25rem .5rem;
+    border: none;
+    border-radius: 6px;
+    background: var(--teal);
+    color: #fff;
+    font-size: .75rem;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .packing-card li .del-pack {
+    background: none;
+    border: none;
+    color: transparent;
+    cursor: pointer;
+    font-size: .7rem;
+    padding: .1rem .25rem;
+    margin-left: auto;
+    flex-shrink: 0;
+    transition: color .2s;
+  }
+
+  .packing-card li:hover .del-pack { color: var(--muted); }
+  .packing-card li .del-pack:hover { color: var(--accent); }
 
   /* ── Footer ── */
   footer {
@@ -1411,8 +1503,20 @@
           <li>盥洗用品（可當地買）</li>
           <li>常備藥品</li>
           <li>防曬乳</li>
+          <li>面紙 / 濕紙巾</li>
+          <li>口罩</li>
           <li>夾鏈袋</li>
           <li>環保購物袋</li>
+        </ul>
+      </div>
+      <div class="packing-card">
+        <h4>📋 代辦清單</h4>
+        <ul>
+          <li>去銀行換日幣</li>
+          <li>買好 KKDay 行程</li>
+          <li>確認護照效期</li>
+          <li>下載離線地圖</li>
+          <li>通知信用卡公司出國</li>
         </ul>
       </div>
     </div>
@@ -1526,132 +1630,209 @@ function renderExpenses() {
 
 renderExpenses();
 
-/* ══════ Packing List Checkboxes ══════ */
+/* ══════ Packing List (Check / Add / Delete) ══════ */
 const PACKING_KEY = 'solo-trip-packing';
+const PACKING_EXTRA_KEY = 'solo-trip-packing-extra';
+const PACKING_DEL_KEY = 'solo-trip-packing-del';
 
-function getPackingState() {
-  try { return JSON.parse(localStorage.getItem(PACKING_KEY)) || {}; }
-  catch { return {}; }
+function getStore(key) {
+  try { return JSON.parse(localStorage.getItem(key)) || {}; } catch { return {}; }
 }
 
 function initPacking() {
-  const state = getPackingState();
-  document.querySelectorAll('.packing-card li').forEach((li, i) => {
-    const key = 'item-' + i;
-    if (state[key]) li.classList.add('checked');
-    li.addEventListener('click', () => {
-      li.classList.toggle('checked');
-      const s = getPackingState();
-      s[key] = li.classList.contains('checked');
-      localStorage.setItem(PACKING_KEY, JSON.stringify(s));
+  const checked = getStore(PACKING_KEY);
+  const extras = getStore(PACKING_EXTRA_KEY);  // { cardIdx: [items] }
+  const deleted = getStore(PACKING_DEL_KEY);    // { "cardIdx-itemIdx": true }
+
+  document.querySelectorAll('.packing-card').forEach((card, ci) => {
+    const ul = card.querySelector('ul');
+    const origItems = ul.querySelectorAll('li');
+
+    // Mark deleted original items
+    origItems.forEach((li, ii) => {
+      const delKey = ci + '-' + ii;
+      if (deleted[delKey]) { li.style.display = 'none'; return; }
+      setupPackItem(li, ci + '-orig-' + ii, checked);
+      addDeleteBtn(li, () => {
+        const d = getStore(PACKING_DEL_KEY);
+        d[delKey] = true;
+        localStorage.setItem(PACKING_DEL_KEY, JSON.stringify(d));
+        li.style.display = 'none';
+      });
     });
+
+    // Render extra items
+    const extraList = extras[ci] || [];
+    extraList.forEach((text, ei) => {
+      const li = document.createElement('li');
+      li.textContent = text;
+      setupPackItem(li, ci + '-extra-' + ei, checked);
+      addDeleteBtn(li, () => {
+        const ex = getStore(PACKING_EXTRA_KEY);
+        ex[ci] = (ex[ci] || []).filter((_, j) => j !== ei);
+        localStorage.setItem(PACKING_EXTRA_KEY, JSON.stringify(ex));
+        // Remove checked state
+        const ch = getStore(PACKING_KEY);
+        delete ch[ci + '-extra-' + ei];
+        localStorage.setItem(PACKING_KEY, JSON.stringify(ch));
+        li.remove();
+      });
+      ul.appendChild(li);
+    });
+
+    // Add item row
+    const addRow = document.createElement('div');
+    addRow.className = 'add-item-row';
+    addRow.innerHTML = '<input type="text" placeholder="新增項目..."><button>+</button>';
+    card.appendChild(addRow);
+
+    const input = addRow.querySelector('input');
+    const btn = addRow.querySelector('button');
+    const addItem = () => {
+      const val = input.value.trim();
+      if (!val) return;
+      const ex = getStore(PACKING_EXTRA_KEY);
+      if (!ex[ci]) ex[ci] = [];
+      ex[ci].push(val);
+      localStorage.setItem(PACKING_EXTRA_KEY, JSON.stringify(ex));
+      input.value = '';
+      // Re-render this card's extras
+      const newLi = document.createElement('li');
+      newLi.textContent = val;
+      const newEi = ex[ci].length - 1;
+      setupPackItem(newLi, ci + '-extra-' + newEi, getStore(PACKING_KEY));
+      addDeleteBtn(newLi, () => {
+        const e2 = getStore(PACKING_EXTRA_KEY);
+        e2[ci] = (e2[ci] || []).filter((_, j) => j !== newEi);
+        localStorage.setItem(PACKING_EXTRA_KEY, JSON.stringify(e2));
+        newLi.remove();
+      });
+      ul.appendChild(newLi);
+    };
+    btn.addEventListener('click', addItem);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') addItem(); });
   });
+}
+
+function setupPackItem(li, key, checked) {
+  if (checked[key]) li.classList.add('checked');
+  li.addEventListener('click', e => {
+    if (e.target.classList.contains('del-pack')) return;
+    li.classList.toggle('checked');
+    const s = getStore(PACKING_KEY);
+    s[key] = li.classList.contains('checked');
+    localStorage.setItem(PACKING_KEY, JSON.stringify(s));
+  });
+}
+
+function addDeleteBtn(li, onDelete) {
+  const btn = document.createElement('button');
+  btn.className = 'del-pack';
+  btn.innerHTML = '&#10005;';
+  btn.addEventListener('click', e => { e.stopPropagation(); onDelete(); });
+  li.appendChild(btn);
 }
 
 initPacking();
 
-/* ══════ Editable Itinerary ══════ */
-const NOTES_KEY = 'solo-trip-notes';
+/* ══════ Editable Itinerary (Bullet List) ══════ */
+const ITINERARY_KEY = 'solo-trip-itinerary';
 
-function getNotes() {
-  try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; }
-  catch { return {}; }
+function getItinerary() {
+  try { return JSON.parse(localStorage.getItem(ITINERARY_KEY)) || {}; } catch { return {}; }
 }
 
-function saveNote(dayIdx, text) {
-  const notes = getNotes();
-  if (text.trim()) {
-    notes['day-' + dayIdx] = text.trim();
-  } else {
-    delete notes['day-' + dayIdx];
-  }
-  localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+function saveItinerary(dayIdx, items) {
+  const data = getItinerary();
+  data['day-' + dayIdx] = items;
+  localStorage.setItem(ITINERARY_KEY, JSON.stringify(data));
 }
 
-function initEditable() {
-  const notes = getNotes();
+function initItinerary() {
+  const data = getItinerary();
+
   document.querySelectorAll('.day-card').forEach((card, i) => {
     const body = card.querySelector('.day-body');
     const key = 'day-' + i;
 
-    // Add edit button bar
-    const editBar = document.createElement('div');
-    editBar.className = 'edit-bar';
-    const btnEdit = document.createElement('button');
-    btnEdit.className = 'btn-edit';
-    btnEdit.textContent = '✏️ 編輯備註';
-    editBar.appendChild(btnEdit);
-    body.appendChild(editBar);
-
-    // Show existing note
-    if (notes[key]) {
-      showNote(body, editBar, notes[key]);
+    // Extract default items from existing content
+    const defaultItems = [];
+    const mainPlan = card.querySelector('.main-plan');
+    if (mainPlan) {
+      mainPlan.textContent.replace(/^[^\s]\s*/, '').split('→').forEach(s => {
+        const t = s.trim();
+        if (t) defaultItems.push(t);
+      });
     }
 
-    btnEdit.addEventListener('click', () => {
-      const existing = body.querySelector('.user-note');
-      const existingEdit = body.querySelector('.edit-textarea');
-      if (existingEdit) return; // already editing
+    const items = data[key] || defaultItems;
 
-      const textarea = document.createElement('textarea');
-      textarea.className = 'edit-textarea';
-      textarea.placeholder = '寫下你的備註、想法、修改...';
-      textarea.value = notes[key] || '';
+    // Build editable section
+    const section = document.createElement('div');
+    section.className = 'itinerary-edit';
+    section.innerHTML = '<div class="itinerary-edit-title">📝 預計行程與景點</div>';
 
-      const btnRow = document.createElement('div');
-      btnRow.style.cssText = 'display:flex;gap:.4rem;margin-top:.4rem;';
+    const ul = document.createElement('ul');
+    section.appendChild(ul);
 
-      const btnSave = document.createElement('button');
-      btnSave.className = 'btn-edit';
-      btnSave.textContent = '儲存';
-      btnSave.style.cssText = 'border-color:var(--teal);color:var(--teal);';
-
-      const btnCancel = document.createElement('button');
-      btnCancel.className = 'btn-edit';
-      btnCancel.textContent = '取消';
-
-      btnRow.appendChild(btnSave);
-      btnRow.appendChild(btnCancel);
-
-      if (existing) existing.remove();
-      editBar.before(textarea);
-      editBar.before(btnRow);
-
-      textarea.focus();
-
-      btnSave.addEventListener('click', () => {
-        const val = textarea.value;
-        saveNote(i, val);
-        textarea.remove();
-        btnRow.remove();
-        const oldNote = body.querySelector('.user-note');
-        if (oldNote) oldNote.remove();
-        if (val.trim()) {
-          showNote(body, editBar, val.trim());
-        }
+    function renderItems() {
+      ul.innerHTML = '';
+      const current = data[key] || items;
+      current.forEach((text, idx) => {
+        const li = document.createElement('li');
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'item-text';
+        input.value = text;
+        input.addEventListener('change', () => {
+          const cur = data[key] || items;
+          cur[idx] = input.value.trim() || text;
+          data[key] = cur;
+          saveItinerary(i, cur);
+        });
+        const delBtn = document.createElement('button');
+        delBtn.className = 'btn-del-item';
+        delBtn.innerHTML = '&#10005;';
+        delBtn.addEventListener('click', () => {
+          const cur = (data[key] || items).filter((_, j) => j !== idx);
+          data[key] = cur;
+          saveItinerary(i, cur);
+          renderItems();
+        });
+        li.appendChild(input);
+        li.appendChild(delBtn);
+        ul.appendChild(li);
       });
+    }
 
-      btnCancel.addEventListener('click', () => {
-        textarea.remove();
-        btnRow.remove();
-        if (notes[key]) {
-          showNote(body, editBar, notes[key]);
-        }
-      });
-    });
+    renderItems();
+
+    // Add new item row
+    const addRow = document.createElement('div');
+    addRow.className = 'itinerary-add-row';
+    addRow.innerHTML = '<input type="text" placeholder="新增景點或行程..."><button>+</button>';
+    section.appendChild(addRow);
+
+    const addInput = addRow.querySelector('input');
+    const addBtn = addRow.querySelector('button');
+    const addItem = () => {
+      const val = addInput.value.trim();
+      if (!val) return;
+      const cur = data[key] || [...items];
+      cur.push(val);
+      data[key] = cur;
+      saveItinerary(i, cur);
+      addInput.value = '';
+      renderItems();
+    };
+    addBtn.addEventListener('click', addItem);
+    addInput.addEventListener('keydown', e => { if (e.key === 'Enter') addItem(); });
+
+    body.appendChild(section);
   });
 }
 
-function showNote(body, editBar, text) {
-  const old = body.querySelector('.user-note');
-  if (old) old.remove();
-  const noteDiv = document.createElement('div');
-  noteDiv.className = 'user-note';
-  noteDiv.innerHTML = '<div class="user-note-label">📝 我的備註</div>' + text.replace(/</g, '&lt;').replace(/\n/g, '<br>');
-  editBar.before(noteDiv);
-}
-
-initEditable();
+initItinerary();
 </script>
 </body>
 </html>
