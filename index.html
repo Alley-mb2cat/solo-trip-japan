@@ -731,6 +731,78 @@
 
   .btn-clear-all:hover { border-color: var(--accent); color: var(--accent); }
 
+  /* ── Checkable Packing ── */
+  .packing-card li {
+    cursor: pointer;
+    user-select: none;
+    transition: opacity .2s;
+  }
+
+  .packing-card li.checked {
+    opacity: .45;
+    text-decoration: line-through;
+  }
+
+  .packing-card li.checked::before {
+    content: '☑';
+    color: var(--teal);
+  }
+
+  /* ── Editable Itinerary ── */
+  .day-body .edit-bar {
+    display: flex;
+    gap: .4rem;
+    margin-top: .6rem;
+  }
+
+  .btn-edit {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: .25rem .6rem;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: .75rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .2s;
+  }
+
+  .btn-edit:hover { border-color: var(--blue); color: var(--blue); }
+
+  .edit-textarea {
+    width: 100%;
+    min-height: 60px;
+    padding: .5rem .7rem;
+    border: 1px solid var(--blue);
+    border-radius: 8px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: .92rem;
+    line-height: 1.6;
+    resize: vertical;
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .edit-textarea:focus { outline: none; box-shadow: 0 0 0 2px rgba(52,96,156,.15); }
+
+  .user-note {
+    margin-top: .6rem;
+    padding: .6rem .8rem;
+    background: #fff8e1;
+    border-radius: 8px;
+    border-left: 3px solid #f9a825;
+    font-size: .85rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+
+  .user-note-label {
+    font-size: .72rem;
+    color: #f9a825;
+    font-weight: 600;
+    margin-bottom: .2rem;
+  }
+
   /* ── Footer ── */
   footer {
     text-align: center;
@@ -1221,6 +1293,7 @@
           <div class="form-field">
             <label>日期</label>
             <select id="exp-day">
+              <option value="PRE">行前費用</option>
               <option value="D1">D1 — 5/13</option>
               <option value="D2">D2 — 5/14</option>
               <option value="D3">D3 — 5/15</option>
@@ -1235,12 +1308,14 @@
           <div class="form-field">
             <label>分類</label>
             <select id="exp-cat">
+              <option value="機票">✈️ 機票</option>
               <option value="伙食">🍜 伙食</option>
               <option value="交通">🚃 交通</option>
               <option value="景點">🎫 景點</option>
               <option value="採買">🛍️ 採買</option>
               <option value="住宿">🏨 住宿</option>
               <option value="體驗">🎟️ 體驗</option>
+              <option value="保險">🛡️ 保險</option>
               <option value="其他">📦 其他</option>
             </select>
           </div>
@@ -1353,11 +1428,13 @@
 </footer>
 
 <script>
+/* ══════ Expense Tracker ══════ */
 const BUDGET = 52650;
 const STORAGE_KEY = 'solo-trip-expenses';
+const DAY_ORDER = ['PRE','D1','D2','D3','D4','D5','D6','D7','D8','D9'];
 const DAY_LABELS = {
-  D1:'5/13', D2:'5/14', D3:'5/15', D4:'5/16', D5:'5/17',
-  D6:'5/18', D7:'5/19', D8:'5/20', D9:'5/21'
+  PRE:'行前費用', D1:'5/13', D2:'5/14', D3:'5/15', D4:'5/16',
+  D5:'5/17', D6:'5/18', D7:'5/19', D8:'5/20', D9:'5/21'
 };
 
 function getExpenses() {
@@ -1423,7 +1500,7 @@ function renderExpenses() {
   }
 
   const grouped = {};
-  ['D1','D2','D3','D4','D5','D6','D7','D8','D9'].forEach(d => {
+  DAY_ORDER.forEach(d => {
     const items = list.filter(e => e.day === d);
     if (items.length) grouped[d] = items;
   });
@@ -1431,8 +1508,9 @@ function renderExpenses() {
   let html = '';
   for (const [day, items] of Object.entries(grouped)) {
     const dayTotal = items.reduce((s, e) => s + e.amount, 0);
+    const label = day === 'PRE' ? '行前費用' : day + '（' + DAY_LABELS[day] + '）';
     html += '<div class="day-expenses">';
-    html += '<div class="day-expenses-header"><span>' + day + '（' + DAY_LABELS[day] + '）</span><span class="day-total">$' + dayTotal.toLocaleString() + '</span></div>';
+    html += '<div class="day-expenses-header"><span>' + label + '</span><span class="day-total">$' + dayTotal.toLocaleString() + '</span></div>';
     for (const e of items) {
       html += '<div class="expense-row">';
       html += '<span class="e-cat">' + e.cat + '</span>';
@@ -1447,6 +1525,133 @@ function renderExpenses() {
 }
 
 renderExpenses();
+
+/* ══════ Packing List Checkboxes ══════ */
+const PACKING_KEY = 'solo-trip-packing';
+
+function getPackingState() {
+  try { return JSON.parse(localStorage.getItem(PACKING_KEY)) || {}; }
+  catch { return {}; }
+}
+
+function initPacking() {
+  const state = getPackingState();
+  document.querySelectorAll('.packing-card li').forEach((li, i) => {
+    const key = 'item-' + i;
+    if (state[key]) li.classList.add('checked');
+    li.addEventListener('click', () => {
+      li.classList.toggle('checked');
+      const s = getPackingState();
+      s[key] = li.classList.contains('checked');
+      localStorage.setItem(PACKING_KEY, JSON.stringify(s));
+    });
+  });
+}
+
+initPacking();
+
+/* ══════ Editable Itinerary ══════ */
+const NOTES_KEY = 'solo-trip-notes';
+
+function getNotes() {
+  try { return JSON.parse(localStorage.getItem(NOTES_KEY)) || {}; }
+  catch { return {}; }
+}
+
+function saveNote(dayIdx, text) {
+  const notes = getNotes();
+  if (text.trim()) {
+    notes['day-' + dayIdx] = text.trim();
+  } else {
+    delete notes['day-' + dayIdx];
+  }
+  localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+}
+
+function initEditable() {
+  const notes = getNotes();
+  document.querySelectorAll('.day-card').forEach((card, i) => {
+    const body = card.querySelector('.day-body');
+    const key = 'day-' + i;
+
+    // Add edit button bar
+    const editBar = document.createElement('div');
+    editBar.className = 'edit-bar';
+    const btnEdit = document.createElement('button');
+    btnEdit.className = 'btn-edit';
+    btnEdit.textContent = '✏️ 編輯備註';
+    editBar.appendChild(btnEdit);
+    body.appendChild(editBar);
+
+    // Show existing note
+    if (notes[key]) {
+      showNote(body, editBar, notes[key]);
+    }
+
+    btnEdit.addEventListener('click', () => {
+      const existing = body.querySelector('.user-note');
+      const existingEdit = body.querySelector('.edit-textarea');
+      if (existingEdit) return; // already editing
+
+      const textarea = document.createElement('textarea');
+      textarea.className = 'edit-textarea';
+      textarea.placeholder = '寫下你的備註、想法、修改...';
+      textarea.value = notes[key] || '';
+
+      const btnRow = document.createElement('div');
+      btnRow.style.cssText = 'display:flex;gap:.4rem;margin-top:.4rem;';
+
+      const btnSave = document.createElement('button');
+      btnSave.className = 'btn-edit';
+      btnSave.textContent = '儲存';
+      btnSave.style.cssText = 'border-color:var(--teal);color:var(--teal);';
+
+      const btnCancel = document.createElement('button');
+      btnCancel.className = 'btn-edit';
+      btnCancel.textContent = '取消';
+
+      btnRow.appendChild(btnSave);
+      btnRow.appendChild(btnCancel);
+
+      if (existing) existing.remove();
+      editBar.before(textarea);
+      editBar.before(btnRow);
+
+      textarea.focus();
+
+      btnSave.addEventListener('click', () => {
+        const val = textarea.value;
+        saveNote(i, val);
+        textarea.remove();
+        btnRow.remove();
+        const oldNote = body.querySelector('.user-note');
+        if (oldNote) oldNote.remove();
+        if (val.trim()) {
+          showNote(body, editBar, val.trim());
+        }
+      });
+
+      btnCancel.addEventListener('click', () => {
+        textarea.remove();
+        btnRow.remove();
+        if (notes[key]) {
+          showNote(body, editBar, notes[key]);
+        }
+      });
+    });
+  });
+}
+
+function showNote(body, editBar, text) {
+  const old = body.querySelector('.user-note');
+  if (old) old.remove();
+  const noteDiv = document.createElement('div');
+  noteDiv.className = 'user-note';
+  noteDiv.innerHTML = '<div class="user-note-label">📝 我的備註</div>' + text.replace(/</g, '&lt;').replace(/\n/g, '<br>');
+  editBar.before(noteDiv);
+}
+
+initEditable();
 </script>
 </body>
 </html>
