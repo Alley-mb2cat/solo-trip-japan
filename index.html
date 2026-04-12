@@ -1676,7 +1676,7 @@
 </section>
 
 <!-- ════════ Cloud Sync ════════ -->
-<button class="sync-fab" id="sync-btn" onclick="cloudSync()" title="雲端同步">☁</button>
+<button class="sync-fab" id="sync-btn" onclick="cloudSync()" title="雲端同步（長按重設URL）">☁</button>
 <div class="sync-toast" id="sync-toast"></div>
 
 <!-- ════════ Footer ════════ -->
@@ -2123,6 +2123,28 @@ function getSyncUrl() {
 function setSyncUrl(url) {
   localStorage.setItem(SYNC_URL_KEY, url.trim());
 }
+
+// Long press to reset sync URL
+(function() {
+  const btn = document.getElementById('sync-btn');
+  let timer;
+  btn.addEventListener('pointerdown', () => {
+    timer = setTimeout(() => {
+      timer = 'long';
+      const newUrl = prompt('重設同步 URL：', getSyncUrl());
+      if (newUrl !== null) {
+        setSyncUrl(newUrl);
+        showToast('URL 已更新', 2000);
+      }
+    }, 1000);
+  });
+  btn.addEventListener('pointerup', () => {
+    if (timer !== 'long') clearTimeout(timer);
+  });
+  btn.addEventListener('pointercancel', () => {
+    if (timer !== 'long') clearTimeout(timer);
+  });
+})();
 
 async function cloudSync() {
   let url = getSyncUrl();
