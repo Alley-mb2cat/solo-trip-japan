@@ -377,6 +377,62 @@
     margin-top: .3rem;
   }
 
+  .budget-actual {
+    margin-top: .6rem;
+    padding-top: .5rem;
+    border-top: 1px dashed var(--border);
+  }
+
+  .budget-actual-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: .75rem;
+    margin-bottom: .3rem;
+  }
+
+  .budget-actual-label {
+    color: var(--muted);
+  }
+
+  .budget-actual-amount {
+    font-weight: 600;
+  }
+
+  .budget-actual-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .budget-actual-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: var(--teal);
+    transition: width .4s ease;
+  }
+
+  .budget-actual-fill.over {
+    background: var(--accent);
+  }
+
+  .budget-confirmed {
+    display: inline-flex;
+    align-items: center;
+    gap: .2rem;
+    font-size: .68rem;
+    color: var(--teal);
+    font-weight: 500;
+    margin-top: .25rem;
+  }
+
+  .budget-no-record {
+    font-size: .72rem;
+    color: var(--border);
+    font-style: italic;
+  }
+
   .budget-total {
     background: linear-gradient(135deg, #1a1a2e, #0f3460);
     color: #fff;
@@ -1343,47 +1399,47 @@
     <!-- ── Tab 1: 預估預算 ── -->
     <div class="tab-panel active" id="tab-estimate">
       <div class="budget-grid">
-        <div class="budget-item">
+        <div class="budget-item" data-category="機票" data-estimate="14000">
           <span class="label">✈️ 機票</span>
           <span class="amount" style="color:var(--accent);">$14,000</span>
           <span class="note">關空進・小松出</span>
         </div>
-        <div class="budget-item">
+        <div class="budget-item" data-category="住宿" data-estimate="11000">
           <span class="label">🏨 住宿（8 晚）</span>
           <span class="amount" style="color:var(--blue);">$11,000</span>
           <span class="note">平均 $1,375/晚</span>
         </div>
-        <div class="budget-item">
+        <div class="budget-item" data-category="交通" data-estimate="3800">
           <span class="label">🚃 交通票券</span>
           <span class="amount" style="color:var(--teal);">$3,800</span>
           <span class="note">JR Pass + 巴士 + 市內</span>
         </div>
-        <div class="budget-item">
+        <div class="budget-item" data-category="景點" data-estimate="1200">
           <span class="label">🎫 景點門票</span>
           <span class="amount" style="color:var(--gold);">$1,200</span>
           <span class="note">彥根城 + 金澤 2 日通票 $200 + 富山樂享券 $150</span>
         </div>
-        <div class="budget-item">
+        <div class="budget-item" data-category="體驗" data-estimate="1800">
           <span class="label">🎟️ 體驗預約</span>
           <span class="amount" style="color:#d35400;">$1,800</span>
           <span class="note">KKDay 一日遊 $1,500 + 野餐 $300</span>
         </div>
-        <div class="budget-item">
+        <div class="budget-item" data-category="伙食" data-estimate="10000">
           <span class="label">🍜 伙食費</span>
           <span class="amount" style="color:#e67e22;">$10,000</span>
           <span class="note">每餐 ¥1,000–1,500 + 偶爾奢侈</span>
         </div>
-        <div class="budget-item">
+        <div class="budget-item" data-category="採買" data-estimate="8000">
           <span class="label">🛍️ 採買伴手禮</span>
           <span class="amount" style="color:#8e44ad;">$8,000</span>
           <span class="note">看心情，可多可少</span>
         </div>
-        <div class="budget-item">
+        <div class="budget-item" data-category="保險" data-estimate="850">
           <span class="label">🛡️ 旅遊保險</span>
           <span class="amount" style="color:var(--muted);">$850</span>
           <span class="note">旅平險 + 不便險</span>
         </div>
-        <div class="budget-item">
+        <div class="budget-item" data-category="其他" data-estimate="2000">
           <span class="label">📶 雜支預備</span>
           <span class="amount" style="color:var(--muted);">$2,000</span>
           <span class="note">網卡、零食、意外花費</span>
@@ -1673,6 +1729,54 @@ function renderExpenses() {
 }
 
 renderExpenses();
+
+/* ══════ Budget ↔ Actual Sync ══════ */
+function renderBudgetActual() {
+  const list = getExpenses();
+  const byCat = {};
+  list.forEach(e => {
+    byCat[e.cat] = (byCat[e.cat] || 0) + e.amount;
+  });
+
+  document.querySelectorAll('.budget-item[data-category]').forEach(item => {
+    const cat = item.dataset.category;
+    const estimate = parseInt(item.dataset.estimate);
+    const actual = byCat[cat] || 0;
+
+    // Remove old indicator
+    const old = item.querySelector('.budget-actual');
+    if (old) old.remove();
+
+    if (actual === 0) return;
+
+    const pct = Math.min((actual / estimate) * 100, 100);
+    const over = actual > estimate;
+
+    const div = document.createElement('div');
+    div.className = 'budget-actual';
+    div.innerHTML =
+      '<div class="budget-actual-row">' +
+        '<span class="budget-actual-label">實際花費</span>' +
+        '<span class="budget-actual-amount" style="color:' + (over ? 'var(--accent)' : 'var(--teal)') + '">$' + actual.toLocaleString() + '</span>' +
+      '</div>' +
+      '<div class="budget-actual-bar">' +
+        '<div class="budget-actual-fill' + (over ? ' over' : '') + '" style="width:' + pct + '%"></div>' +
+      '</div>' +
+      (actual >= estimate
+        ? '<div class="budget-confirmed">' + (over ? '⚠ 超出 $' + (actual - estimate).toLocaleString() : '✓ 已確認') + '</div>'
+        : '<div class="budget-confirmed" style="color:var(--muted);">尚餘 $' + (estimate - actual).toLocaleString() + '</div>'
+      );
+    item.appendChild(div);
+  });
+}
+
+// Patch renderExpenses to also update budget view
+const _origRender = renderExpenses;
+renderExpenses = function() {
+  _origRender();
+  renderBudgetActual();
+};
+renderBudgetActual();
 
 /* ══════ Packing List (Check / Add / Delete) ══════ */
 const PACKING_KEY = 'solo-trip-packing';
