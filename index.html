@@ -260,9 +260,7 @@
 
   .hotel-info {
     margin-top: .8rem;
-    padding: .6rem 1rem;
-    background: linear-gradient(135deg, #f0edf5, #ece8f4);
-    border-radius: 8px;
+    padding: .6rem 0;
     font-size: .88rem;
     display: flex;
     align-items: center;
@@ -903,11 +901,55 @@
     color: var(--muted);
   }
 
+  /* ── Day Tab Bar (mobile) ── */
+  .day-tab-bar {
+    display: none;
+  }
+
   /* ── Responsive ── */
   @media (max-width: 600px) {
-    .timeline { padding-left: 1.8rem; }
-    .day-card { padding: 1.3rem 1.2rem; }
-    .day-card::before { left: -1.8rem; width: 12px; height: 12px; }
+    .day-tab-bar {
+      display: flex;
+      gap: .3rem;
+      margin-bottom: 1.2rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: .3rem;
+    }
+    .day-tab-bar::-webkit-scrollbar { display: none; }
+
+    .day-tab {
+      flex-shrink: 0;
+      padding: .45rem .8rem;
+      border: none;
+      border-radius: 8px;
+      background: var(--border);
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: .82rem;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .2s;
+      white-space: nowrap;
+    }
+
+    .day-tab.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(192,57,43,.25);
+    }
+
+    .timeline.tab-mode { padding-left: 0; }
+    .timeline.tab-mode::before { display: none; }
+    .timeline.tab-mode .day-card { display: none; }
+    .timeline.tab-mode .day-card.day-active { display: block; }
+    .timeline.tab-mode .day-card::before { display: none; }
+    .timeline.tab-mode .day-card {
+      margin-bottom: 0;
+      border-radius: 12px;
+    }
+
     .budget-total .total-amount { font-size: 1.6rem; }
   }
 
@@ -942,7 +984,9 @@
     <h2 class="section-title">每日行程</h2>
     <p class="section-sub">大方向固定，細節隨心所欲。每天都留有彈性空間。</p>
 
-    <div class="timeline">
+    <div class="day-tab-bar" id="day-tab-bar"></div>
+
+    <div class="timeline" id="itinerary-timeline">
 
       <!-- D1 -->
       <div class="day-card">
@@ -1828,11 +1872,54 @@ function initItinerary() {
     addBtn.addEventListener('click', addItem);
     addInput.addEventListener('keydown', e => { if (e.key === 'Enter') addItem(); });
 
-    body.appendChild(section);
+    // Insert after transport-box, or after main-plan if no transport-box
+    const transportBox = body.querySelector('.transport-box');
+    const insertAfter = transportBox || body.querySelector('.main-plan');
+    if (insertAfter && insertAfter.nextSibling) {
+      body.insertBefore(section, insertAfter.nextSibling);
+    } else {
+      body.appendChild(section);
+    }
   });
 }
 
 initItinerary();
+
+/* ══════ Mobile Day Tabs ══════ */
+function initDayTabs() {
+  const tabBar = document.getElementById('day-tab-bar');
+  const timeline = document.getElementById('itinerary-timeline');
+  const cards = timeline.querySelectorAll('.day-card');
+  const labels = ['D1','D2','D3','D4','D5','D6','D7','D8','D9'];
+
+  labels.forEach((label, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'day-tab' + (i === 0 ? ' active' : '');
+    btn.textContent = label;
+    btn.addEventListener('click', () => {
+      tabBar.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      cards.forEach((c, j) => {
+        c.classList.toggle('day-active', j === i);
+      });
+    });
+    tabBar.appendChild(btn);
+  });
+
+  function applyMode() {
+    const isMobile = window.innerWidth <= 600;
+    timeline.classList.toggle('tab-mode', isMobile);
+    if (isMobile) {
+      const activeIdx = [...tabBar.querySelectorAll('.day-tab')].findIndex(b => b.classList.contains('active'));
+      cards.forEach((c, j) => c.classList.toggle('day-active', j === activeIdx));
+    }
+  }
+
+  applyMode();
+  window.addEventListener('resize', applyMode);
+}
+
+initDayTabs();
 </script>
 </body>
 </html>
