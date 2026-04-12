@@ -1620,45 +1620,87 @@
 
     <div class="packing-cols">
       <div class="packing-card">
-        <h4>👕 衣物</h4>
-        <ul>
-          <li>薄外套 / 防風衣</li>
-          <li>短袖 × 4</li>
-          <li>長褲 × 2</li>
-          <li>輕便好走的鞋</li>
-          <li>折疊傘</li>
-        </ul>
-      </div>
-      <div class="packing-card">
-        <h4>📱 3C</h4>
-        <ul>
-          <li>手機 + 充電器</li>
-          <li>行動電源</li>
-          <li>日本網卡 / eSIM</li>
-          <li>相機（選配）</li>
-          <li>轉接頭（日本 A 型）</li>
-        </ul>
-      </div>
-      <div class="packing-card">
-        <h4>📄 證件</h4>
+        <h4>📄 證件 & 財物</h4>
         <ul>
           <li>護照（效期 6 個月+）</li>
+          <li>護照影本 / 手機存照片</li>
+          <li>身分證</li>
           <li>電子機票</li>
           <li>訂房確認信</li>
           <li>旅遊保險單</li>
           <li>JR Pass 兌換券</li>
+          <li>日圓現金</li>
+          <li>信用卡 / 簽帳卡</li>
+          <li>悠遊卡 / ICOCA</li>
+          <li>兩吋大頭照 × 2</li>
         </ul>
       </div>
       <div class="packing-card">
-        <h4>🧴 日用品</h4>
+        <h4>👕 衣物</h4>
         <ul>
-          <li>盥洗用品（可當地買）</li>
-          <li>常備藥品</li>
+          <li>薄外套 / 防風衣</li>
+          <li>薄長袖 × 2</li>
+          <li>短袖 × 4</li>
+          <li>長褲 × 2</li>
+          <li>內衣褲（天數份）</li>
+          <li>襪子（天數份）</li>
+          <li>輕便好走的鞋</li>
+          <li>室內拖鞋</li>
+          <li>帽子 / 遮陽帽</li>
+          <li>睡衣</li>
+        </ul>
+      </div>
+      <div class="packing-card">
+        <h4>📱 3C & 電子</h4>
+        <ul>
+          <li>手機 + 充電線</li>
+          <li>充電器 / 快充頭</li>
+          <li>行動電源</li>
+          <li>日本網卡 / eSIM</li>
+          <li>相機（選配）</li>
+          <li>記憶卡</li>
+          <li>轉接頭（日本 A 型）</li>
+          <li>耳機</li>
+        </ul>
+      </div>
+      <div class="packing-card">
+        <h4>🧴 盥洗 & 保養</h4>
+        <ul>
+          <li>牙刷 / 牙膏</li>
+          <li>洗面乳</li>
+          <li>洗髮精 / 沐浴乳（旅行瓶）</li>
+          <li>保養品 / 化妝品</li>
           <li>防曬乳</li>
+          <li>護唇膏</li>
+          <li>毛巾 / 快乾巾</li>
+          <li>梳子</li>
+          <li>刮鬍刀</li>
+        </ul>
+      </div>
+      <div class="packing-card">
+        <h4>💊 健康 & 藥品</h4>
+        <ul>
+          <li>個人常備藥</li>
+          <li>腸胃藥</li>
+          <li>感冒藥</li>
+          <li>止痛藥</li>
+          <li>暈車藥</li>
+          <li>OK繃 / 痠痛貼布</li>
+          <li>防蚊液</li>
+        </ul>
+      </div>
+      <div class="packing-card">
+        <h4>🎒 日用 & 雜物</h4>
+        <ul>
+          <li>折疊傘 / 輕便雨衣</li>
           <li>面紙 / 濕紙巾</li>
           <li>口罩</li>
-          <li>夾鏈袋</li>
+          <li>夾鏈袋（分裝用）</li>
           <li>環保購物袋</li>
+          <li>頸枕（飛機用）</li>
+          <li>筆（入境卡填寫）</li>
+          <li>小鎖頭（行李箱）</li>
+          <li>洗衣袋</li>
         </ul>
       </div>
       <div class="packing-card">
@@ -1669,6 +1711,9 @@
           <li>確認護照效期</li>
           <li>下載離線地圖</li>
           <li>通知信用卡公司出國</li>
+          <li>開通手機國際漫遊</li>
+          <li>備份重要文件到雲端</li>
+          <li>查好機場交通方式</li>
         </ul>
       </div>
     </div>
@@ -1841,6 +1886,16 @@ const PACKING_DEL_KEY = 'solo-trip-packing-del';
 
 function getStore(key) {
   try { return JSON.parse(localStorage.getItem(key)) || {}; } catch { return {}; }
+}
+
+// Reset packing data if card count changed
+const PACKING_VER_KEY = 'solo-trip-packing-ver';
+const PACKING_VER = '2';
+if (localStorage.getItem(PACKING_VER_KEY) !== PACKING_VER) {
+  localStorage.removeItem(PACKING_KEY);
+  localStorage.removeItem(PACKING_EXTRA_KEY);
+  localStorage.removeItem(PACKING_DEL_KEY);
+  localStorage.setItem(PACKING_VER_KEY, PACKING_VER);
 }
 
 function initPacking() {
