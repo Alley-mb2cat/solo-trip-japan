@@ -2117,35 +2117,31 @@ async function cloudSync() {
   showToast('同步中...', 10000);
 
   try {
-    // 1. Pull from cloud
+    // 1. Pull from cloud (GET — follows redirects automatically)
     const res = await fetch(url);
     const cloud = await res.json();
 
-    // 2. Merge: compare timestamps, last-write-wins per key
+    // 2. Merge
     const local = {};
     SYNC_KEYS.forEach(k => {
       const raw = localStorage.getItem(k);
       local[k] = raw ? JSON.parse(raw) : null;
     });
 
-    // Merge strategy: if cloud has data and local is empty, use cloud.
-    // If both have data, use whichever was updated more recently.
-    // We'll use a simple approach: merge then push everything back.
     const merged = {};
     SYNC_KEYS.forEach(k => {
       if (cloud[k] != null && local[k] == null) {
-        // Cloud has, local doesn't → use cloud
         merged[k] = cloud[k];
         localStorage.setItem(k, JSON.stringify(cloud[k]));
       } else if (local[k] != null) {
-        // Local has data → use local (user's device is source of truth)
         merged[k] = local[k];
       }
     });
 
-    // 3. Push merged data back to cloud
+    // 3. Push merged data back to cloud (POST as text/plain to avoid CORS preflight)
     await fetch(url, {
       method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(merged),
     });
 
