@@ -1706,14 +1706,24 @@
       <div class="packing-card">
         <h4>📋 代辦清單</h4>
         <ul>
-          <li>去銀行換日幣</li>
-          <li>買好 KKDay 行程</li>
           <li>確認護照效期</li>
-          <li>下載離線地圖</li>
+          <li>買好 KKDay 行程</li>
           <li>通知信用卡公司出國</li>
           <li>開通手機國際漫遊</li>
           <li>備份重要文件到雲端</li>
+          <li>下載離線地圖</li>
           <li>查好機場交通方式</li>
+        </ul>
+      </div>
+      <div class="packing-card">
+        <h4>🛒 待買清單</h4>
+        <ul>
+          <li>去銀行換日幣</li>
+          <li>日本網卡 / eSIM</li>
+          <li>旅行分裝瓶</li>
+          <li>行李秤</li>
+          <li>防水袋</li>
+          <li>壓縮袋</li>
         </ul>
       </div>
     </div>
@@ -1890,7 +1900,7 @@ function getStore(key) {
 
 // Reset packing data if card count changed
 const PACKING_VER_KEY = 'solo-trip-packing-ver';
-const PACKING_VER = '2';
+const PACKING_VER = '3';
 if (localStorage.getItem(PACKING_VER_KEY) !== PACKING_VER) {
   localStorage.removeItem(PACKING_KEY);
   localStorage.removeItem(PACKING_EXTRA_KEY);
