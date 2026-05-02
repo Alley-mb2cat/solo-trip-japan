@@ -222,31 +222,6 @@
     font-size: 1rem;
   }
 
-  .alternatives {
-    margin-top: .8rem;
-    padding: .8rem 1rem;
-    background: var(--paper);
-    border-radius: 10px;
-    border-left: 3px solid var(--gold);
-  }
-
-  .alternatives summary {
-    cursor: pointer;
-    font-size: .85rem;
-    font-weight: 500;
-    color: var(--gold);
-    user-select: none;
-  }
-
-  .alternatives ul {
-    margin-top: .5rem;
-    padding-left: 1.2rem;
-    font-size: .88rem;
-    color: var(--muted);
-  }
-
-  .alternatives li { margin-bottom: .25rem; }
-
   .tip {
     margin-top: .6rem;
     font-size: .82rem;
@@ -277,18 +252,20 @@
     font-size: .75rem;
     padding: .1rem .5rem;
     border-radius: 99px;
-    background: var(--teal-light);
+    background: transparent;
     color: var(--teal);
     font-weight: 500;
+    border: 1px solid var(--teal);
   }
 
   .hotel-info .breakfast-no {
     font-size: .75rem;
     padding: .1rem .5rem;
     border-radius: 99px;
-    background: #fef3e2;
+    background: transparent;
     color: #c57b15;
     font-weight: 500;
+    border: 1px solid #c57b15;
   }
 
   .transport-box {
@@ -339,6 +316,78 @@
     font-weight: 500;
     vertical-align: middle;
     margin-left: .3rem;
+  }
+
+  /* ── Editable Transport ── */
+  .transport-edit-item {
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+    margin-bottom: .15rem;
+  }
+
+  .transport-edit-item input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: .84rem;
+    color: var(--ink);
+    padding: .15rem .3rem;
+    border-radius: 4px;
+  }
+
+  .transport-edit-item input:focus {
+    outline: none;
+    background: rgba(255,255,255,.7);
+    box-shadow: 0 0 0 2px rgba(52,96,156,.2);
+  }
+
+  .transport-edit-item .btn-del-transport {
+    background: none;
+    border: none;
+    color: transparent;
+    cursor: pointer;
+    font-size: .7rem;
+    padding: .1rem .25rem;
+    flex-shrink: 0;
+    transition: color .2s;
+  }
+
+  .transport-edit-item:hover .btn-del-transport { color: var(--muted); }
+  .transport-edit-item .btn-del-transport:hover { color: var(--accent); }
+
+  .transport-add-row {
+    display: flex;
+    gap: .3rem;
+    margin-top: .4rem;
+  }
+
+  .transport-add-row input {
+    flex: 1;
+    min-width: 0;
+    padding: .3rem .5rem;
+    border: 1px dashed rgba(52,96,156,.3);
+    border-radius: 6px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: .8rem;
+    background: rgba(255,255,255,.5);
+    color: var(--ink);
+  }
+
+  .transport-add-row input:focus { outline: none; border-color: var(--blue); background: #fff; }
+
+  .transport-add-row button {
+    padding: .25rem .6rem;
+    border: none;
+    border-radius: 6px;
+    background: var(--blue);
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 600;
+    cursor: pointer;
+    flex-shrink: 0;
   }
 
   /* ── Budget ── */
@@ -425,12 +474,6 @@
     color: var(--teal);
     font-weight: 500;
     margin-top: .25rem;
-  }
-
-  .budget-no-record {
-    font-size: .72rem;
-    color: var(--border);
-    font-style: italic;
   }
 
   .budget-total {
@@ -524,12 +567,73 @@
     display: flex;
     align-items: center;
     gap: .4rem;
+    cursor: pointer;
+    user-select: none;
+    transition: opacity .2s;
   }
 
   .packing-card li::before {
-    content: '☐';
+    content: '\2610';
     color: var(--muted);
+    font-size: .85rem;
+    flex-shrink: 0;
+  }
+
+  .packing-card li.checked {
+    opacity: .45;
+    text-decoration: line-through;
+  }
+
+  .packing-card li.checked::before {
+    content: '\2611';
+    color: var(--teal);
+  }
+
+  .packing-card li .del-pack {
+    background: none;
+    border: none;
+    color: transparent;
+    cursor: pointer;
+    font-size: .7rem;
+    padding: .1rem .25rem;
+    margin-left: auto;
+    flex-shrink: 0;
+    transition: color .2s;
+  }
+
+  .packing-card li:hover .del-pack { color: var(--muted); }
+  .packing-card li .del-pack:hover { color: var(--accent); }
+
+  .packing-card .add-item-row {
+    display: flex;
+    gap: .3rem;
+    margin-top: .5rem;
+    padding-top: .5rem;
+    border-top: 1px dashed var(--border);
+  }
+
+  .packing-card .add-item-row input {
+    flex: 1;
+    min-width: 0;
+    padding: .3rem .5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: .82rem;
+    background: var(--paper);
+  }
+
+  .packing-card .add-item-row input:focus { outline: none; border-color: var(--teal); }
+
+  .packing-card .add-item-row button {
+    padding: .25rem .5rem;
+    border: none;
+    border-radius: 6px;
+    background: var(--teal);
+    color: #fff;
     font-size: .75rem;
+    cursor: pointer;
+    flex-shrink: 0;
   }
 
   /* ── Tabs ── */
@@ -786,23 +890,6 @@
 
   .btn-clear-all:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* ── Checkable Packing ── */
-  .packing-card li {
-    cursor: pointer;
-    user-select: none;
-    transition: opacity .2s;
-  }
-
-  .packing-card li.checked {
-    opacity: .45;
-    text-decoration: line-through;
-  }
-
-  .packing-card li.checked::before {
-    content: '☑';
-    color: var(--teal);
-  }
-
   /* ── Editable Itinerary ── */
   .itinerary-edit {
     margin-top: .8rem;
@@ -834,7 +921,7 @@
   }
 
   .itinerary-edit li::before {
-    content: '•';
+    content: '\2022';
     color: #f9a825;
     font-weight: 700;
     flex-shrink: 0;
@@ -861,16 +948,16 @@
   .itinerary-edit li .btn-del-item {
     background: none;
     border: none;
-    color: var(--muted);
+    color: transparent;
     cursor: pointer;
-    font-size: .75rem;
-    padding: .15rem .3rem;
+    font-size: .7rem;
+    padding: .1rem .25rem;
     flex-shrink: 0;
-    opacity: .5;
-    transition: opacity .2s;
+    transition: color .2s;
   }
 
-  .itinerary-edit li .btn-del-item:hover { opacity: 1; color: var(--accent); }
+  .itinerary-edit li:hover .btn-del-item { color: var(--muted); }
+  .itinerary-edit li .btn-del-item:hover { color: var(--accent); }
 
   .itinerary-add-row {
     display: flex;
@@ -880,6 +967,7 @@
 
   .itinerary-add-row input {
     flex: 1;
+    min-width: 0;
     padding: .35rem .5rem;
     border: 1px dashed #e0d5b5;
     border-radius: 6px;
@@ -902,54 +990,6 @@
     cursor: pointer;
     flex-shrink: 0;
   }
-
-  /* ── Packing Add/Delete ── */
-  .packing-card .add-item-row {
-    display: flex;
-    gap: .3rem;
-    margin-top: .5rem;
-    padding-top: .5rem;
-    border-top: 1px dashed var(--border);
-  }
-
-  .packing-card .add-item-row input {
-    flex: 1;
-    min-width: 0;
-    padding: .3rem .5rem;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-family: 'Noto Sans TC', sans-serif;
-    font-size: .82rem;
-    background: var(--paper);
-  }
-
-  .packing-card .add-item-row input:focus { outline: none; border-color: var(--teal); }
-
-  .packing-card .add-item-row button {
-    padding: .25rem .5rem;
-    border: none;
-    border-radius: 6px;
-    background: var(--teal);
-    color: #fff;
-    font-size: .75rem;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-
-  .packing-card li .del-pack {
-    background: none;
-    border: none;
-    color: transparent;
-    cursor: pointer;
-    font-size: .7rem;
-    padding: .1rem .25rem;
-    margin-left: auto;
-    flex-shrink: 0;
-    transition: color .2s;
-  }
-
-  .packing-card li:hover .del-pack { color: var(--muted); }
-  .packing-card li .del-pack:hover { color: var(--accent); }
 
   /* ── Footer ── */
   footer {
@@ -1108,21 +1148,11 @@
           <p>落地後直接啟用 JR Pass，搭 HARUKA 前往京都。輕鬆步調適應時差。</p>
           <div class="transport-box">
             <div class="transport-title">🚃 交通班次</div>
-            <div class="route-step">
-              <span class="step-icon">➊</span>
-              <span class="step-detail">關西空港 → 京都｜HARUKA 特急 06:30 發 → 07:45 着（約 75 分）<span class="jr-badge">JR Pass</span></span>
+            <div class="transport-content">
+              <div class="route-step"><span class="step-icon">➊</span><span class="step-detail">關西空港 → 京都｜HARUKA 特急 06:30 發 → 07:45 着（約 75 分）<span class="jr-badge">JR Pass</span></span></div>
+              <div class="step-note">⚡ 首班 HARUKA 為 06:30，06:00 落地後可先取行李、購買 ICOCA、啟用 JR Pass</div>
             </div>
-            <div class="step-note">⚡ 首班 HARUKA 為 06:30，06:00 落地後可先取行李、購買 ICOCA、啟用 JR Pass</div>
           </div>
-          <details class="alternatives">
-            <summary>也可以去...</summary>
-            <ul>
-              <li>錦市場逛逛吃早餐、買小食補體力</li>
-              <li>鴨川沿岸咖啡廳坐著發呆</li>
-              <li>河原町周邊隨意散策</li>
-              <li>先斗町晚餐小酌</li>
-            </ul>
-          </details>
           <p class="tip">JR Pass 在 D1 啟用，HARUKA 自由席可直接搭乘。</p>
           <div class="hotel-info">
             🏨 <span class="hotel-name">Hotel Anteroom Kyoto</span>
@@ -1143,24 +1173,12 @@
           <p>國寶天守閣＋城下町散步，長濱老街的玻璃工藝值得一看。晚上直接入住。</p>
           <div class="transport-box">
             <div class="transport-title">🚃 交通班次</div>
-            <div class="route-step">
-              <span class="step-icon">➊</span>
-              <span class="step-detail">京都 → 彥根｜JR 琵琶湖線新快速（約 50 分）<span class="jr-badge">JR Pass</span></span>
+            <div class="transport-content">
+              <div class="route-step"><span class="step-icon">➊</span><span class="step-detail">京都 → 彥根｜JR 琵琶湖線新快速（約 50 分）<span class="jr-badge">JR Pass</span></span></div>
+              <div class="route-step"><span class="step-icon">➋</span><span class="step-detail">彥根 → 長濱｜JR 琵琶湖線（約 15 分）<span class="jr-badge">JR Pass</span></span></div>
+              <div class="step-note">⚡ 新快速每 15–30 分一班，不需劃位直接搭</div>
             </div>
-            <div class="route-step">
-              <span class="step-icon">➋</span>
-              <span class="step-detail">彥根 → 長濱｜JR 琵琶湖線（約 15 分）<span class="jr-badge">JR Pass</span></span>
-            </div>
-            <div class="step-note">⚡ 新快速每 15–30 分一班，不需劃位直接搭</div>
           </div>
-          <details class="alternatives">
-            <summary>也可以去...</summary>
-            <ul>
-              <li>彥根城護城河遊船</li>
-              <li>夢京橋城堡路商店街午餐</li>
-              <li>長濱鐵道博物館（火車迷必去）</li>
-            </ul>
-          </details>
           <p class="tip">彥根城的吉祥物彥根喵每天有固定登場時間，可查官網。</p>
           <div class="hotel-info">
             🏨 <span class="hotel-name">北琵琶湖格拉協飯店</span>
@@ -1179,15 +1197,6 @@
         <div class="day-body">
           <p class="main-plan">🚣 近江八幡水鄉巡遊 → La Collina 甜點草屋</p>
           <p>手搖木船穿梭水鄉，La Collina 是藤森照信設計的奇幻建築。</p>
-          <details class="alternatives">
-            <summary>也可以去...</summary>
-            <ul>
-              <li>八幡堀散步拍照（不搭船也很美）</li>
-              <li>日牟禮八幡宮參拜</li>
-              <li>近江牛午餐（滋賀名物）</li>
-              <li>安土城跡探訪（信長迷推薦）</li>
-            </ul>
-          </details>
           <p class="tip">La Collina 的年輪蛋糕現烤限定，平日比較不用排。</p>
           <div class="hotel-info">
             🏨 <span class="hotel-name">北琵琶湖格拉協飯店</span>
@@ -1208,25 +1217,12 @@
           <p>移動日，在敦賀轉乘北陸新幹線直達金澤。抵達後用黃昏光線拍東茶屋街最美。</p>
           <div class="transport-box">
             <div class="transport-title">🚃 交通班次</div>
-            <div class="route-step">
-              <span class="step-icon">➊</span>
-              <span class="step-detail">長濱 → 敦賀｜JR 琵琶湖線 / 北陸本線（約 30 分）<span class="jr-badge">JR Pass</span></span>
+            <div class="transport-content">
+              <div class="route-step"><span class="step-icon">➊</span><span class="step-detail">長濱 → 敦賀｜JR 琵琶湖線 / 北陸本線（約 30 分）<span class="jr-badge">JR Pass</span></span></div>
+              <div class="route-step"><span class="step-icon">➋</span><span class="step-detail">敦賀 → 金澤｜北陸新幹線つるぎ（約 45 分）<span class="jr-badge">JR Pass</span></span></div>
+              <div class="step-note">⚡ つるぎ班次參考：07:35 / 10:43 / 11:17 / 12:17 / 14:11 發（敦賀出發）</div>
             </div>
-            <div class="route-step">
-              <span class="step-icon">➋</span>
-              <span class="step-detail">敦賀 → 金澤｜北陸新幹線つるぎ（約 45 分）<span class="jr-badge">JR Pass</span></span>
-            </div>
-            <div class="step-note">⚡ つるぎ班次參考：07:35 / 10:43 / 11:17 / 12:17 / 14:11 發（敦賀出發）</div>
           </div>
-          <details class="alternatives">
-            <summary>也可以去...</summary>
-            <ul>
-              <li>近江町市場吃海鮮丼</li>
-              <li>金澤城公園散步</li>
-              <li>尾張町老街區咖啡廳</li>
-              <li>片町夜生活探索</li>
-            </ul>
-          </details>
           <p class="tip">東茶屋街傍晚遊客少，拍照品質最好。敦賀站轉乘在同一站內，跟著指標走即可。</p>
           <div class="hotel-info">
             🏨 <span class="hotel-name">Hotel Pacific Kanazawa</span>
@@ -1247,37 +1243,15 @@
           <p>09:00 金澤站東口 4 號巴士站集合出發，觀光巴士一日遊免煩惱交通。</p>
           <div class="transport-box">
             <div class="transport-title">🚌 KKDay 觀光巴士一日遊（三星街道巴士）</div>
-            <div class="route-step">
-              <span class="step-icon">➊</span>
-              <span class="step-detail">09:00 金澤站東口出發</span>
+            <div class="transport-content">
+              <div class="route-step"><span class="step-icon">➊</span><span class="step-detail">09:00 金澤站東口出發</span></div>
+              <div class="route-step"><span class="step-icon">➋</span><span class="step-detail">五箇山（停留約 40 分，含村上家民謠築子舞表演）</span></div>
+              <div class="route-step"><span class="step-icon">➌</span><span class="step-detail">白川鄉合掌村（自由散策）</span></div>
+              <div class="route-step"><span class="step-icon">➍</span><span class="step-detail">飛驒高山老街（停留約 110 分，江戶風情散步）</span></div>
+              <div class="route-step"><span class="step-icon">➎</span><span class="step-detail">傍晚返回金澤站</span></div>
+              <div class="step-note">⚡ 車上有中/英/韓語導覽機可借用，1 人成團｜請提前 20 分鐘到集合地點</div>
             </div>
-            <div class="route-step">
-              <span class="step-icon">➋</span>
-              <span class="step-detail">五箇山（停留約 40 分，含村上家民謠築子舞表演）</span>
-            </div>
-            <div class="route-step">
-              <span class="step-icon">➌</span>
-              <span class="step-detail">白川鄉合掌村（自由散策）</span>
-            </div>
-            <div class="route-step">
-              <span class="step-icon">➍</span>
-              <span class="step-detail">飛驒高山老街（停留約 110 分，江戶風情散步）</span>
-            </div>
-            <div class="route-step">
-              <span class="step-icon">➎</span>
-              <span class="step-detail">傍晚返回金澤站</span>
-            </div>
-            <div class="step-note">⚡ 車上有中/英/韓語導覽機可借用，1 人成團｜請提前 20 分鐘到集合地點</div>
           </div>
-          <details class="alternatives">
-            <summary>也可以去...</summary>
-            <ul>
-              <li>荻町城跡展望台俯瞰白川鄉全景</li>
-              <li>和田家・長瀨家（開放參觀的合掌屋）</li>
-              <li>高山老街買飛驒牛串、醬油糰子</li>
-              <li>宮川朝市（如果有經過）</li>
-            </ul>
-          </details>
           <p class="tip">KKDay 需提前預約！建議確認取消政策。集合地點在金澤站東口出來左邊。</p>
           <div class="hotel-info">
             🏨 <span class="hotel-name">Hotel Pacific Kanazawa</span>
@@ -1298,29 +1272,13 @@
           <p>天氣好的話可以看到 3,000 公尺雪山從海面升起的奇景。</p>
           <div class="transport-box">
             <div class="transport-title">🚃 交通班次</div>
-            <div class="route-step">
-              <span class="step-icon">➊</span>
-              <span class="step-detail">金澤 → 新高岡｜北陸新幹線つるぎ（約 13 分）<span class="jr-badge">JR Pass</span></span>
+            <div class="transport-content">
+              <div class="route-step"><span class="step-icon">➊</span><span class="step-detail">金澤 → 新高岡｜北陸新幹線つるぎ（約 13 分）<span class="jr-badge">JR Pass</span></span></div>
+              <div class="route-step"><span class="step-icon">➋</span><span class="step-detail">新高岡 → 高岡｜JR 城端線（約 3 分）<span class="jr-badge">JR Pass</span></span></div>
+              <div class="route-step"><span class="step-icon">➌</span><span class="step-detail">高岡 → 雨晴｜JR 氷見線（約 20 分）<span class="jr-badge">JR Pass</span></span></div>
+              <div class="step-note">⚡ 全程 JR Pass 可用！氷見線班次較少（約 1 小時 1 班），建議先查好回程時刻</div>
             </div>
-            <div class="route-step">
-              <span class="step-icon">➋</span>
-              <span class="step-detail">新高岡 → 高岡｜JR 城端線（約 3 分）<span class="jr-badge">JR Pass</span></span>
-            </div>
-            <div class="route-step">
-              <span class="step-icon">➌</span>
-              <span class="step-detail">高岡 → 雨晴｜JR 氷見線（約 20 分）<span class="jr-badge">JR Pass</span></span>
-            </div>
-            <div class="step-note">⚡ 全程 JR Pass 可用！氷見線班次較少（約 1 小時 1 班），建議先查好回程時刻</div>
           </div>
-          <details class="alternatives">
-            <summary>也可以去...</summary>
-            <ul>
-              <li>高岡大佛＋山町筋土藏街</li>
-              <li>新湊內川（日本威尼斯）散步</li>
-              <li>氷見漁港午餐吃寒鰤魚</li>
-              <li>若天氣差，改去富山市玻璃美術館</li>
-            </ul>
-          </details>
           <p class="tip">雨晴海岸看立山連峰需天氣清朗，建議早上前往。回程同路線反向搭乘。</p>
           <div class="hotel-info">
             🏨 <span class="hotel-name">Hotel Pacific Kanazawa</span>
@@ -1341,22 +1299,11 @@
           <p>悠閒的一天，在運河旁公園散步、喝咖啡、看風景。搭配「富山樂享券」（NT$150）可折抵景點。</p>
           <div class="transport-box">
             <div class="transport-title">🚃 交通班次</div>
-            <div class="route-step">
-              <span class="step-icon">➊</span>
-              <span class="step-detail">金澤 → 富山｜北陸新幹線（約 20 分）<span class="jr-badge">JR Pass</span></span>
+            <div class="transport-content">
+              <div class="route-step"><span class="step-icon">➊</span><span class="step-detail">金澤 → 富山｜北陸新幹線（約 20 分）<span class="jr-badge">JR Pass</span></span></div>
+              <div class="step-note">⚡ かがやき 19 分 / はくたか 22 分 / つるぎ 23 分｜約每 20–30 分一班</div>
             </div>
-            <div class="step-note">⚡ かがやき 19 分 / はくたか 22 分 / つるぎ 23 分｜約每 20–30 分一班</div>
           </div>
-          <details class="alternatives">
-            <summary>也可以去...</summary>
-            <ul>
-              <li>富山市中心路面電車隨意搭</li>
-              <li>富山縣美術館（屋頂遊樂場免費）</li>
-              <li>池田屋安兵衛（古早味手工製藥體驗）</li>
-              <li>白蝦亭吃富山白蝦天丼</li>
-              <li>回金澤半日也可以</li>
-            </ul>
-          </details>
           <p class="tip">環水公園的星巴克清晨人少，配晨光很療癒。環水公園離富山站步行約 10 分鐘。富山樂享券可用於富山縣美術館、玻璃美術館等。</p>
           <div class="hotel-info">
             🏨 <span class="hotel-name">Hotel Pacific Kanazawa</span>
@@ -1375,16 +1322,6 @@
         <div class="day-body">
           <p class="main-plan">🎨 金澤美學日 — 兼六園 → 21 世紀美術館</p>
           <p>日本三大名園＋超好拍的現代美術館，使用「金澤文化森林旅遊 2 日通票」（NT$200）一票玩到底。</p>
-          <details class="alternatives">
-            <summary>也可以去...</summary>
-            <ul>
-              <li>鈴木大拙館（極簡禪意空間）</li>
-              <li>金澤神社求學業</li>
-              <li>成巽閣（加賀藩細緻工藝）</li>
-              <li>長町武家屋敷跡散步</li>
-              <li>Fusion21 美術館餐廳午餐</li>
-            </ul>
-          </details>
           <p class="tip">兼六園早上 7:00 前免費入園，人也最少。文化森林 2 日通票可通用兼六園、21 世紀美術館、金澤城公園等。</p>
           <div class="hotel-info">
             🏨 <span class="hotel-name">Hotel Pacific Kanazawa</span>
@@ -1405,25 +1342,12 @@
           <p>最後半天悠閒收尾，買完伴手禮再出發。</p>
           <div class="transport-box">
             <div class="transport-title">🚌 金澤 → 小松機場｜利木津巴士（約 45 分）</div>
-            <div class="route-step">
-              <span class="step-icon">🎯</span>
-              <span class="step-detail">建議搭 <strong>14:20</strong> 發 → 15:05 着（16:55 起飛前 1.5 小時到）</span>
+            <div class="transport-content">
+              <div class="route-step"><span class="step-icon">🎯</span><span class="step-detail">建議搭 <strong>14:20</strong> 發 → 15:05 着（16:55 起飛前 1.5 小時到）</span></div>
+              <div class="route-step"><span class="step-icon">🔄</span><span class="step-detail">備案：13:05 發 → 13:50 着（更充裕）</span></div>
+              <div class="step-note">⚡ 票價 ¥1,300（成人）｜金澤站西口搭乘｜不適用 JR Pass</div>
             </div>
-            <div class="route-step">
-              <span class="step-icon">🔄</span>
-              <span class="step-detail">備案：13:05 發 → 13:50 着（更充裕）</span>
-            </div>
-            <div class="step-note">⚡ 票價 ¥1,300（成人）｜金澤站西口搭乘｜不適用 JR Pass</div>
           </div>
-          <details class="alternatives">
-            <summary>也可以去...</summary>
-            <ul>
-              <li>近江町市場最後巡禮</li>
-              <li>金澤百番街（車站內好買）</li>
-              <li>不室屋買麩饅頭伴手禮</li>
-              <li>提早到機場逛免稅店</li>
-            </ul>
-          </details>
           <p class="tip">小松機場不大，提前 1.5 小時到即可。巴士時刻表每月調整，出發前再確認。</p>
           <div class="hotel-info">
             🏨 <span class="hotel-name">Hotel Pacific Kanazawa</span>
@@ -1487,7 +1411,7 @@
           <span class="note">看心情，可多可少</span>
         </div>
         <div class="budget-item" data-category="行前費用" data-estimate="850">
-          <span class="label">🛡️ 旅遊保險</span>
+          <span class="label">🛡️ 行前費用</span>
           <span class="amount" style="color:var(--muted);">$850</span>
           <span class="note">旅平險 + 不便險</span>
         </div>
@@ -1574,7 +1498,7 @@
             <input type="text" id="exp-note" placeholder="拉麵、伴手禮...">
           </div>
         </div>
-        <button class="btn-add" onclick="addExpense()">記一筆</button>
+        <button class="btn-add" id="btn-add-expense">記一筆</button>
       </div>
 
       <!-- 花費總覽 -->
@@ -1606,7 +1530,7 @@
         <div class="expense-empty">還沒有任何花費紀錄，開始記帳吧！</div>
       </div>
 
-      <button class="btn-clear-all" onclick="clearAll()">清除所有紀錄</button>
+      <button class="btn-clear-all" id="btn-clear-all">清除所有紀錄</button>
     </div>
 
   </div>
@@ -1731,14 +1655,14 @@
 </section>
 
 <!-- ════════ Cloud Sync ════════ -->
-<button class="sync-fab" id="sync-btn" onclick="cloudSync()" title="雲端同步（長按重設URL）">☁</button>
+<button class="sync-fab" id="sync-btn" title="雲端同步（長按重設URL）">☁</button>
 <div class="sync-toast" id="sync-toast"></div>
 
 <!-- ════════ Footer ════════ -->
 <footer>
   <div class="container">
     <p>一個人的旅行，走到哪算哪 ✦</p>
-    <p style="margin-top:.3rem; font-size:.75rem;">Last updated: 2026-04-09</p>
+    <p style="margin-top:.3rem; font-size:.75rem;">Last updated: 2026-05-02</p>
   </div>
 </footer>
 
@@ -1754,14 +1678,14 @@ const DAY_LABELS = {
 
 function getExpenses() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-  catch { return []; }
+  catch(e) { return []; }
 }
 function saveExpenses(list) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 }
 
 function switchTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+  document.querySelectorAll('.tab-btn').forEach(function(btn, i) {
     btn.classList.toggle('active', (tab === 'estimate' ? i === 0 : i === 1));
   });
   document.getElementById('tab-estimate').classList.toggle('active', tab === 'estimate');
@@ -1769,13 +1693,13 @@ function switchTab(tab) {
 }
 
 function addExpense() {
-  const day = document.getElementById('exp-day').value;
-  const cat = document.getElementById('exp-cat').value;
-  const amount = parseInt(document.getElementById('exp-amount').value);
-  const note = document.getElementById('exp-note').value.trim();
+  var day = document.getElementById('exp-day').value;
+  var cat = document.getElementById('exp-cat').value;
+  var amount = parseInt(document.getElementById('exp-amount').value);
+  var note = document.getElementById('exp-note').value.trim();
   if (!amount || amount <= 0) return;
-  const list = getExpenses();
-  list.push({ id: Date.now(), day, cat, amount, note: note || cat });
+  var list = getExpenses();
+  list.push({ id: Date.now(), day: day, cat: cat, amount: amount, note: note || cat });
   saveExpenses(list);
   document.getElementById('exp-amount').value = '';
   document.getElementById('exp-note').value = '';
@@ -1783,7 +1707,7 @@ function addExpense() {
 }
 
 function deleteExpense(id) {
-  const list = getExpenses().filter(e => e.id !== id);
+  var list = getExpenses().filter(function(e) { return e.id !== id; });
   saveExpenses(list);
   renderExpenses();
 }
@@ -1795,75 +1719,91 @@ function clearAll() {
 }
 
 function renderExpenses() {
-  const list = getExpenses();
-  const container = document.getElementById('expense-list');
-  const total = list.reduce((s, e) => s + e.amount, 0);
-  const remain = BUDGET - total;
-  const pct = Math.min((total / BUDGET) * 100, 100);
+  var list = getExpenses();
+  var container = document.getElementById('expense-list');
+  var total = list.reduce(function(s, e) { return s + e.amount; }, 0);
+  var remain = BUDGET - total;
+  var pct = Math.min((total / BUDGET) * 100, 100);
 
   document.getElementById('total-spent').textContent = '$' + total.toLocaleString();
   document.getElementById('total-remain').textContent = '$' + remain.toLocaleString();
   document.getElementById('total-remain').style.color = remain >= 0 ? 'var(--teal)' : 'var(--accent)';
   document.getElementById('progress-pct').textContent = pct.toFixed(1) + '%';
-  const fill = document.getElementById('progress-fill');
+  var fill = document.getElementById('progress-fill');
   fill.style.width = pct + '%';
   fill.classList.toggle('over', total > BUDGET);
 
   if (list.length === 0) {
     container.innerHTML = '<div class="expense-empty">還沒有任何花費紀錄，開始記帳吧！</div>';
+    renderBudgetActual();
     return;
   }
 
-  const grouped = {};
-  DAY_ORDER.forEach(d => {
-    const items = list.filter(e => e.day === d);
+  var grouped = {};
+  DAY_ORDER.forEach(function(d) {
+    var items = list.filter(function(e) { return e.day === d; });
     if (items.length) grouped[d] = items;
   });
 
-  let html = '';
-  for (const [day, items] of Object.entries(grouped)) {
-    const dayTotal = items.reduce((s, e) => s + e.amount, 0);
-    const label = day === 'PRE' ? '行前費用' : day + '（' + DAY_LABELS[day] + '）';
+  var html = '';
+  for (var day in grouped) {
+    var items = grouped[day];
+    var dayTotal = items.reduce(function(s, e) { return s + e.amount; }, 0);
+    var label = day === 'PRE' ? '行前費用' : day + '（' + DAY_LABELS[day] + '）';
     html += '<div class="day-expenses">';
     html += '<div class="day-expenses-header"><span>' + label + '</span><span class="day-total">$' + dayTotal.toLocaleString() + '</span></div>';
-    for (const e of items) {
+    for (var j = 0; j < items.length; j++) {
+      var e = items[j];
       html += '<div class="expense-row">';
       html += '<span class="e-cat">' + e.cat + '</span>';
       html += '<span class="e-note">' + (e.note || '').replace(/</g,'&lt;') + '</span>';
       html += '<span class="e-amount">$' + e.amount.toLocaleString() + '</span>';
-      html += '<button class="e-del" onclick="deleteExpense(' + e.id + ')">&#10005;</button>';
+      html += '<button class="e-del" data-id="' + e.id + '">&#10005;</button>';
       html += '</div>';
     }
     html += '</div>';
   }
   container.innerHTML = html;
+
+  // Bind delete buttons via event delegation
+  container.querySelectorAll('.e-del').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      deleteExpense(parseInt(btn.dataset.id));
+    });
+  });
+
+  renderBudgetActual();
 }
+
+// Bind buttons
+document.getElementById('btn-add-expense').addEventListener('click', addExpense);
+document.getElementById('btn-clear-all').addEventListener('click', clearAll);
 
 renderExpenses();
 
-/* ══════ Budget ↔ Actual Sync ══════ */
+/* ══════ Budget <-> Actual Sync ══════ */
 function renderBudgetActual() {
-  const list = getExpenses();
-  const byCat = {};
-  list.forEach(e => {
+  var list = getExpenses();
+  var byCat = {};
+  list.forEach(function(e) {
     byCat[e.cat] = (byCat[e.cat] || 0) + e.amount;
   });
 
-  document.querySelectorAll('.budget-item[data-category]').forEach(item => {
-    const cat = item.dataset.category;
-    const estimate = parseInt(item.dataset.estimate);
-    const actual = byCat[cat] || 0;
+  document.querySelectorAll('.budget-item[data-category]').forEach(function(item) {
+    var cat = item.dataset.category;
+    var estimate = parseInt(item.dataset.estimate);
+    var actual = byCat[cat] || 0;
 
     // Remove old indicator
-    const old = item.querySelector('.budget-actual');
+    var old = item.querySelector('.budget-actual');
     if (old) old.remove();
 
     if (actual === 0) return;
 
-    const pct = Math.min((actual / estimate) * 100, 100);
-    const over = actual > estimate;
+    var pct = Math.min((actual / estimate) * 100, 100);
+    var over = actual > estimate;
 
-    const div = document.createElement('div');
+    var div = document.createElement('div');
     div.className = 'budget-actual';
     div.innerHTML =
       '<div class="budget-actual-row">' +
@@ -1881,26 +1821,18 @@ function renderBudgetActual() {
   });
 }
 
-// Patch renderExpenses to also update budget view
-const _origRender = renderExpenses;
-renderExpenses = function() {
-  _origRender();
-  renderBudgetActual();
-};
-renderBudgetActual();
-
 /* ══════ Packing List (Check / Add / Delete) ══════ */
-const PACKING_KEY = 'solo-trip-packing';
-const PACKING_EXTRA_KEY = 'solo-trip-packing-extra';
-const PACKING_DEL_KEY = 'solo-trip-packing-del';
+var PACKING_KEY = 'solo-trip-packing';
+var PACKING_EXTRA_KEY = 'solo-trip-packing-extra';
+var PACKING_DEL_KEY = 'solo-trip-packing-del';
 
 function getStore(key) {
-  try { return JSON.parse(localStorage.getItem(key)) || {}; } catch { return {}; }
+  try { return JSON.parse(localStorage.getItem(key)) || {}; } catch(e) { return {}; }
 }
 
 // Reset packing data if card count changed
-const PACKING_VER_KEY = 'solo-trip-packing-ver';
-const PACKING_VER = '3';
+var PACKING_VER_KEY = 'solo-trip-packing-ver';
+var PACKING_VER = '4';
 if (localStorage.getItem(PACKING_VER_KEY) !== PACKING_VER) {
   localStorage.removeItem(PACKING_KEY);
   localStorage.removeItem(PACKING_EXTRA_KEY);
@@ -1909,179 +1841,301 @@ if (localStorage.getItem(PACKING_VER_KEY) !== PACKING_VER) {
 }
 
 function initPacking() {
-  const checked = getStore(PACKING_KEY);
-  const extras = getStore(PACKING_EXTRA_KEY);  // { cardIdx: [items] }
-  const deleted = getStore(PACKING_DEL_KEY);    // { "cardIdx-itemIdx": true }
+  var checked = getStore(PACKING_KEY);
+  var extras = getStore(PACKING_EXTRA_KEY);
+  var deleted = getStore(PACKING_DEL_KEY);
 
-  document.querySelectorAll('.packing-card').forEach((card, ci) => {
-    const ul = card.querySelector('ul');
+  document.querySelectorAll('.packing-card').forEach(function(card, ci) {
+    var ul = card.querySelector('ul');
+    if (!ul) return;
 
-    // Clean up: remove extra items, delete buttons, add-item rows, and event listeners
-    ul.querySelectorAll('li[data-extra]').forEach(li => li.remove());
-    ul.querySelectorAll('.del-pack').forEach(b => b.remove());
-    const oldAddRow = card.querySelector('.add-item-row');
-    if (oldAddRow) oldAddRow.remove();
+    // Save original text content
+    if (!card._origTexts) {
+      card._origTexts = [];
+      ul.querySelectorAll('li').forEach(function(li) {
+        card._origTexts.push(li.textContent.trim());
+      });
+    }
 
-    // Clone original items to strip old event listeners
-    const origItems = ul.querySelectorAll('li');
-    origItems.forEach((li, ii) => {
-      const clone = li.cloneNode(false);
-      clone.textContent = li.textContent;
-      li.replaceWith(clone);
-    });
+    // Rebuild ul from scratch
+    ul.innerHTML = '';
 
-    // Re-query after clone
-    const freshItems = ul.querySelectorAll('li');
+    // Render original items
+    card._origTexts.forEach(function(text, ii) {
+      var delKey = ci + '-' + ii;
+      if (deleted[delKey]) return;
 
-    // Mark deleted original items
-    freshItems.forEach((li, ii) => {
-      const delKey = ci + '-' + ii;
-      if (deleted[delKey]) { li.style.display = 'none'; return; }
+      var li = document.createElement('li');
+      li.textContent = text;
       setupPackItem(li, ci + '-orig-' + ii, checked);
-      addDeleteBtn(li, () => {
-        const d = getStore(PACKING_DEL_KEY);
+      addDeleteBtn(li, function() {
+        var d = getStore(PACKING_DEL_KEY);
         d[delKey] = true;
         localStorage.setItem(PACKING_DEL_KEY, JSON.stringify(d));
-        li.style.display = 'none';
-      });
-    });
-
-    // Render extra items
-    const extraList = extras[ci] || [];
-    extraList.forEach((text, ei) => {
-      const li = document.createElement('li');
-      li.setAttribute('data-extra', '1');
-      li.textContent = text;
-      setupPackItem(li, ci + '-extra-' + ei, checked);
-      addDeleteBtn(li, () => {
-        const ex = getStore(PACKING_EXTRA_KEY);
-        ex[ci] = (ex[ci] || []).filter((_, j) => j !== ei);
-        localStorage.setItem(PACKING_EXTRA_KEY, JSON.stringify(ex));
-        // Remove checked state
-        const ch = getStore(PACKING_KEY);
-        delete ch[ci + '-extra-' + ei];
-        localStorage.setItem(PACKING_KEY, JSON.stringify(ch));
         li.remove();
       });
       ul.appendChild(li);
     });
 
+    // Render extra items
+    var extraList = extras[ci] || [];
+    extraList.forEach(function(text, ei) {
+      var li = document.createElement('li');
+      li.textContent = text;
+      setupPackItem(li, ci + '-extra-' + ei, checked);
+      addDeleteBtn(li, function() {
+        var ex = getStore(PACKING_EXTRA_KEY);
+        ex[ci] = (ex[ci] || []).filter(function(_, j) { return j !== ei; });
+        localStorage.setItem(PACKING_EXTRA_KEY, JSON.stringify(ex));
+        var ch = getStore(PACKING_KEY);
+        delete ch[ci + '-extra-' + ei];
+        localStorage.setItem(PACKING_KEY, JSON.stringify(ch));
+        initPacking(); // re-render to fix indices
+      });
+      ul.appendChild(li);
+    });
+
+    // Remove old add-item-row
+    var oldRow = card.querySelector('.add-item-row');
+    if (oldRow) oldRow.remove();
+
     // Add item row
-    const addRow = document.createElement('div');
+    var addRow = document.createElement('div');
     addRow.className = 'add-item-row';
     addRow.innerHTML = '<input type="text" placeholder="新增項目..."><button>+</button>';
     card.appendChild(addRow);
 
-    const input = addRow.querySelector('input');
-    const btn = addRow.querySelector('button');
-    const addItem = () => {
-      const val = input.value.trim();
+    var input = addRow.querySelector('input');
+    var btn = addRow.querySelector('button');
+    var addItem = function() {
+      var val = input.value.trim();
       if (!val) return;
-      const ex = getStore(PACKING_EXTRA_KEY);
+      var ex = getStore(PACKING_EXTRA_KEY);
       if (!ex[ci]) ex[ci] = [];
       ex[ci].push(val);
       localStorage.setItem(PACKING_EXTRA_KEY, JSON.stringify(ex));
       input.value = '';
-      // Re-render this card's extras
-      const newLi = document.createElement('li');
-      newLi.setAttribute('data-extra', '1');
-      newLi.textContent = val;
-      const newEi = ex[ci].length - 1;
-      setupPackItem(newLi, ci + '-extra-' + newEi, getStore(PACKING_KEY));
-      addDeleteBtn(newLi, () => {
-        const e2 = getStore(PACKING_EXTRA_KEY);
-        e2[ci] = (e2[ci] || []).filter((_, j) => j !== newEi);
-        localStorage.setItem(PACKING_EXTRA_KEY, JSON.stringify(e2));
-        newLi.remove();
-      });
-      ul.appendChild(newLi);
+      initPacking(); // re-render
     };
     btn.addEventListener('click', addItem);
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') addItem(); });
+    input.addEventListener('keydown', function(e) { if (e.key === 'Enter') addItem(); });
   });
 }
 
 function setupPackItem(li, key, checked) {
   if (checked[key]) li.classList.add('checked');
-  li.addEventListener('click', e => {
-    if (e.target.classList.contains('del-pack')) return;
+  li.addEventListener('click', function(e) {
+    if (e.target.classList && e.target.classList.contains('del-pack')) return;
     li.classList.toggle('checked');
-    const s = getStore(PACKING_KEY);
+    var s = getStore(PACKING_KEY);
     s[key] = li.classList.contains('checked');
     localStorage.setItem(PACKING_KEY, JSON.stringify(s));
   });
 }
 
 function addDeleteBtn(li, onDelete) {
-  const btn = document.createElement('button');
+  var btn = document.createElement('button');
   btn.className = 'del-pack';
   btn.innerHTML = '&#10005;';
-  btn.addEventListener('click', e => { e.stopPropagation(); onDelete(); });
+  btn.addEventListener('click', function(e) { e.stopPropagation(); onDelete(); });
   li.appendChild(btn);
 }
 
 initPacking();
 
+/* ══════ Editable Transport ══════ */
+var TRANSPORT_KEY = 'solo-trip-transport';
+
+function getTransportData() {
+  try { return JSON.parse(localStorage.getItem(TRANSPORT_KEY)) || {}; } catch(e) { return {}; }
+}
+
+function saveTransportData(data) {
+  localStorage.setItem(TRANSPORT_KEY, JSON.stringify(data));
+}
+
+function initTransport() {
+  var data = getTransportData();
+
+  document.querySelectorAll('.day-card').forEach(function(card, i) {
+    var box = card.querySelector('.transport-box');
+    if (!box) return;
+
+    var content = box.querySelector('.transport-content');
+    if (!content) return;
+
+    var key = 'day-' + i;
+
+    // Save original items on first run
+    if (!box._origItems) {
+      box._origItems = [];
+      content.querySelectorAll('.route-step').forEach(function(step) {
+        box._origItems.push(step.querySelector('.step-detail').innerHTML);
+      });
+      // Save step-note too
+      box._origNote = '';
+      var noteEl = content.querySelector('.step-note');
+      if (noteEl) box._origNote = noteEl.innerHTML;
+    }
+
+    var items = data[key] ? data[key].items : box._origItems.slice();
+    var note = data[key] ? data[key].note : (box._origNote || '');
+
+    // Rebuild content
+    content.innerHTML = '';
+
+    items.forEach(function(text, idx) {
+      var row = document.createElement('div');
+      row.className = 'transport-edit-item';
+
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.value = text.replace(/<[^>]+>/g, ''); // strip HTML for editing
+      input.addEventListener('change', function() {
+        var cur = getTransportData();
+        if (!cur[key]) cur[key] = { items: items.slice(), note: note };
+        cur[key].items[idx] = input.value.trim();
+        saveTransportData(cur);
+      });
+
+      var delBtn = document.createElement('button');
+      delBtn.className = 'btn-del-transport';
+      delBtn.innerHTML = '&#10005;';
+      delBtn.addEventListener('click', function() {
+        var cur = getTransportData();
+        if (!cur[key]) cur[key] = { items: items.slice(), note: note };
+        cur[key].items.splice(idx, 1);
+        saveTransportData(cur);
+        initTransport();
+      });
+
+      row.appendChild(input);
+      row.appendChild(delBtn);
+      content.appendChild(row);
+    });
+
+    // Note line
+    if (note) {
+      var noteRow = document.createElement('div');
+      noteRow.className = 'transport-edit-item';
+      var noteInput = document.createElement('input');
+      noteInput.type = 'text';
+      noteInput.value = note.replace(/<[^>]+>/g, '');
+      noteInput.style.color = 'var(--muted)';
+      noteInput.style.fontSize = '.78rem';
+      noteInput.addEventListener('change', function() {
+        var cur = getTransportData();
+        if (!cur[key]) cur[key] = { items: items.slice(), note: note };
+        cur[key].note = noteInput.value.trim();
+        saveTransportData(cur);
+      });
+      var noteDelBtn = document.createElement('button');
+      noteDelBtn.className = 'btn-del-transport';
+      noteDelBtn.innerHTML = '&#10005;';
+      noteDelBtn.addEventListener('click', function() {
+        var cur = getTransportData();
+        if (!cur[key]) cur[key] = { items: items.slice(), note: note };
+        cur[key].note = '';
+        saveTransportData(cur);
+        initTransport();
+      });
+      noteRow.appendChild(noteInput);
+      noteRow.appendChild(noteDelBtn);
+      content.appendChild(noteRow);
+    }
+
+    // Add row
+    var oldAddRow = content.parentElement.querySelector('.transport-add-row');
+    if (oldAddRow) oldAddRow.remove();
+
+    var addRow = document.createElement('div');
+    addRow.className = 'transport-add-row';
+    addRow.innerHTML = '<input type="text" placeholder="新增交通資訊..."><button>+</button>';
+    box.appendChild(addRow);
+
+    var addInput = addRow.querySelector('input');
+    var addBtn = addRow.querySelector('button');
+    var addItem = function() {
+      var val = addInput.value.trim();
+      if (!val) return;
+      var cur = getTransportData();
+      if (!cur[key]) cur[key] = { items: items.slice(), note: note };
+      cur[key].items.push(val);
+      saveTransportData(cur);
+      addInput.value = '';
+      initTransport();
+    };
+    addBtn.addEventListener('click', addItem);
+    addInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') addItem(); });
+  });
+}
+
+initTransport();
+
 /* ══════ Editable Itinerary (Bullet List) ══════ */
-const ITINERARY_KEY = 'solo-trip-itinerary';
+var ITINERARY_KEY = 'solo-trip-itinerary';
 
 function getItinerary() {
-  try { return JSON.parse(localStorage.getItem(ITINERARY_KEY)) || {}; } catch { return {}; }
+  try { return JSON.parse(localStorage.getItem(ITINERARY_KEY)) || {}; } catch(e) { return {}; }
 }
 
 function saveItinerary(dayIdx, items) {
-  const data = getItinerary();
+  var data = getItinerary();
   data['day-' + dayIdx] = items;
   localStorage.setItem(ITINERARY_KEY, JSON.stringify(data));
 }
 
 function initItinerary() {
-  const data = getItinerary();
+  var data = getItinerary();
 
-  document.querySelectorAll('.day-card').forEach((card, i) => {
-    const body = card.querySelector('.day-body');
-    const key = 'day-' + i;
+  document.querySelectorAll('.day-card').forEach(function(card, i) {
+    var body = card.querySelector('.day-body');
+    var key = 'day-' + i;
+
+    // Remove old itinerary edit sections
+    var oldSection = card.querySelector('.itinerary-edit');
+    if (oldSection) oldSection.remove();
 
     // Extract default items from existing content
-    const defaultItems = [];
-    const mainPlan = card.querySelector('.main-plan');
+    var defaultItems = [];
+    var mainPlan = card.querySelector('.main-plan');
     if (mainPlan) {
-      mainPlan.textContent.replace(/^[^\s]\s*/, '').split('→').forEach(s => {
-        const t = s.trim();
+      mainPlan.textContent.replace(/^[^\s]\s*/, '').split('\u2192').forEach(function(s) {
+        var t = s.trim();
         if (t) defaultItems.push(t);
       });
     }
 
-    const items = data[key] || defaultItems;
+    var items = data[key] || defaultItems;
 
     // Build editable section
-    const section = document.createElement('div');
+    var section = document.createElement('div');
     section.className = 'itinerary-edit';
     section.innerHTML = '<div class="itinerary-edit-title">📝 預計行程與景點</div>';
 
-    const ul = document.createElement('ul');
+    var ul = document.createElement('ul');
     section.appendChild(ul);
 
     function renderItems() {
       ul.innerHTML = '';
-      const current = data[key] || items;
-      current.forEach((text, idx) => {
-        const li = document.createElement('li');
-        const input = document.createElement('input');
+      var current = data[key] || items;
+      current.forEach(function(text, idx) {
+        var li = document.createElement('li');
+        var input = document.createElement('input');
         input.type = 'text';
         input.className = 'item-text';
         input.value = text;
-        input.addEventListener('change', () => {
-          const cur = data[key] || items;
+        input.addEventListener('change', function() {
+          var cur = data[key] || items;
           cur[idx] = input.value.trim() || text;
           data[key] = cur;
           saveItinerary(i, cur);
         });
-        const delBtn = document.createElement('button');
+        var delBtn = document.createElement('button');
         delBtn.className = 'btn-del-item';
         delBtn.innerHTML = '&#10005;';
-        delBtn.addEventListener('click', () => {
-          const cur = (data[key] || items).filter((_, j) => j !== idx);
+        delBtn.addEventListener('click', function() {
+          var cur = (data[key] || items).filter(function(_, j) { return j !== idx; });
           data[key] = cur;
           saveItinerary(i, cur);
           renderItems();
@@ -2095,17 +2149,17 @@ function initItinerary() {
     renderItems();
 
     // Add new item row
-    const addRow = document.createElement('div');
+    var addRow = document.createElement('div');
     addRow.className = 'itinerary-add-row';
     addRow.innerHTML = '<input type="text" placeholder="新增景點或行程..."><button>+</button>';
     section.appendChild(addRow);
 
-    const addInput = addRow.querySelector('input');
-    const addBtn = addRow.querySelector('button');
-    const addItem = () => {
-      const val = addInput.value.trim();
+    var addInput = addRow.querySelector('input');
+    var addBtn = addRow.querySelector('button');
+    var addItem = function() {
+      var val = addInput.value.trim();
       if (!val) return;
-      const cur = data[key] || [...items];
+      var cur = data[key] || items.slice();
       cur.push(val);
       data[key] = cur;
       saveItinerary(i, cur);
@@ -2113,15 +2167,23 @@ function initItinerary() {
       renderItems();
     };
     addBtn.addEventListener('click', addItem);
-    addInput.addEventListener('keydown', e => { if (e.key === 'Enter') addItem(); });
+    addInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') addItem(); });
 
-    // Insert after transport-box, or after main-plan if no transport-box
-    const transportBox = body.querySelector('.transport-box');
-    const insertAfter = transportBox || body.querySelector('.main-plan');
-    if (insertAfter && insertAfter.nextSibling) {
-      body.insertBefore(section, insertAfter.nextSibling);
-    } else {
+    // Insert after transport-box (or after second <p> if no transport)
+    var transportBox = body.querySelector('.transport-box');
+    if (transportBox && transportBox.nextSibling) {
+      body.insertBefore(section, transportBox.nextSibling);
+    } else if (transportBox) {
       body.appendChild(section);
+    } else {
+      // No transport box: insert after the description paragraph
+      var paragraphs = body.querySelectorAll('p:not(.tip)');
+      var lastP = paragraphs[paragraphs.length - 1];
+      if (lastP && lastP.nextSibling) {
+        body.insertBefore(section, lastP.nextSibling);
+      } else {
+        body.appendChild(section);
+      }
     }
   });
 }
@@ -2130,19 +2192,21 @@ initItinerary();
 
 /* ══════ Mobile Day Tabs ══════ */
 function initDayTabs() {
-  const tabBar = document.getElementById('day-tab-bar');
-  const timeline = document.getElementById('itinerary-timeline');
-  const cards = timeline.querySelectorAll('.day-card');
-  const labels = ['D1','D2','D3','D4','D5','D6','D7','D8','D9'];
+  var tabBar = document.getElementById('day-tab-bar');
+  var timeline = document.getElementById('itinerary-timeline');
+  var cards = timeline.querySelectorAll('.day-card');
+  var labels = ['D1','D2','D3','D4','D5','D6','D7','D8','D9'];
 
-  labels.forEach((label, i) => {
-    const btn = document.createElement('button');
+  tabBar.innerHTML = '';
+
+  labels.forEach(function(label, i) {
+    var btn = document.createElement('button');
     btn.className = 'day-tab' + (i === 0 ? ' active' : '');
     btn.textContent = label;
-    btn.addEventListener('click', () => {
-      tabBar.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active'));
+    btn.addEventListener('click', function() {
+      tabBar.querySelectorAll('.day-tab').forEach(function(b) { b.classList.remove('active'); });
       btn.classList.add('active');
-      cards.forEach((c, j) => {
+      cards.forEach(function(c, j) {
         c.classList.toggle('day-active', j === i);
       });
     });
@@ -2150,11 +2214,14 @@ function initDayTabs() {
   });
 
   function applyMode() {
-    const isMobile = window.innerWidth <= 600;
+    var isMobile = window.innerWidth <= 600;
     timeline.classList.toggle('tab-mode', isMobile);
     if (isMobile) {
-      const activeIdx = [...tabBar.querySelectorAll('.day-tab')].findIndex(b => b.classList.contains('active'));
-      cards.forEach((c, j) => c.classList.toggle('day-active', j === activeIdx));
+      var activeIdx = 0;
+      tabBar.querySelectorAll('.day-tab').forEach(function(b, idx) {
+        if (b.classList.contains('active')) activeIdx = idx;
+      });
+      cards.forEach(function(c, j) { c.classList.toggle('day-active', j === activeIdx); });
     }
   }
 
@@ -2165,20 +2232,21 @@ function initDayTabs() {
 initDayTabs();
 
 /* ══════ Cloud Sync (Google Sheets) ══════ */
-const SYNC_URL_KEY = 'solo-trip-sync-url';
-const SYNC_KEYS = [
+var SYNC_URL_KEY = 'solo-trip-sync-url';
+var SYNC_KEYS = [
   'solo-trip-expenses',
   'solo-trip-packing',
   'solo-trip-packing-extra',
   'solo-trip-packing-del',
-  'solo-trip-itinerary'
+  'solo-trip-itinerary',
+  'solo-trip-transport'
 ];
 
 function showToast(msg, ms) {
-  const t = document.getElementById('sync-toast');
+  var t = document.getElementById('sync-toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), ms || 2500);
+  setTimeout(function() { t.classList.remove('show'); }, ms || 2500);
 }
 
 function getSyncUrl() {
@@ -2191,52 +2259,55 @@ function setSyncUrl(url) {
 
 // Long press to reset sync URL
 (function() {
-  const btn = document.getElementById('sync-btn');
-  let timer;
-  btn.addEventListener('pointerdown', () => {
-    timer = setTimeout(() => {
+  var btn = document.getElementById('sync-btn');
+  var timer;
+  btn.addEventListener('pointerdown', function() {
+    timer = setTimeout(function() {
       timer = 'long';
-      const newUrl = prompt('重設同步 URL：', getSyncUrl());
+      var newUrl = prompt('重設同步 URL：', getSyncUrl());
       if (newUrl !== null) {
         setSyncUrl(newUrl);
         showToast('URL 已更新', 2000);
       }
     }, 1000);
   });
-  btn.addEventListener('pointerup', () => {
+  btn.addEventListener('pointerup', function() {
     if (timer !== 'long') clearTimeout(timer);
   });
-  btn.addEventListener('pointercancel', () => {
+  btn.addEventListener('pointercancel', function() {
     if (timer !== 'long') clearTimeout(timer);
   });
 })();
 
+// Sync button click
+document.getElementById('sync-btn').addEventListener('click', cloudSync);
+
 async function cloudSync() {
-  let url = getSyncUrl();
+  var url = getSyncUrl();
   if (!url) {
     url = prompt('請貼上 Google Apps Script 部署的 URL：\n（只需設定一次，之後會自動記住）');
     if (!url) return;
     setSyncUrl(url);
   }
 
-  const btn = document.getElementById('sync-btn');
+  var btn = document.getElementById('sync-btn');
   btn.classList.add('syncing');
   showToast('同步中...', 10000);
 
   try {
-    // 1. Pull from cloud (GET — follows redirects automatically)
-    const res = await fetch(url);
-    const cloud = await res.json();
+    // 1. Pull from cloud
+    var res = await fetch(url);
+    var cloud = await res.json();
 
     // 2. Merge
-    const local = {};
-    SYNC_KEYS.forEach(k => {
-      const raw = localStorage.getItem(k);
+    var local = {};
+    SYNC_KEYS.forEach(function(k) {
+      var raw = localStorage.getItem(k);
       local[k] = raw ? JSON.parse(raw) : null;
     });
 
-    const merged = {};
-    SYNC_KEYS.forEach(k => {
+    var merged = {};
+    SYNC_KEYS.forEach(function(k) {
       if (cloud[k] != null && local[k] == null) {
         merged[k] = cloud[k];
         localStorage.setItem(k, JSON.stringify(cloud[k]));
@@ -2245,19 +2316,19 @@ async function cloudSync() {
       }
     });
 
-    // 3. Push merged data back to cloud (form + iframe, works on all browsers)
-    await new Promise((resolve) => {
-      const iframe = document.createElement('iframe');
+    // 3. Push merged data back (form + iframe for cross-browser)
+    await new Promise(function(resolve) {
+      var iframe = document.createElement('iframe');
       iframe.name = '_syncFrame';
       iframe.style.display = 'none';
       document.body.appendChild(iframe);
 
-      const form = document.createElement('form');
+      var form = document.createElement('form');
       form.method = 'POST';
       form.action = url;
       form.target = iframe.name;
 
-      const input = document.createElement('input');
+      var input = document.createElement('input');
       input.type = 'hidden';
       input.name = 'payload';
       input.value = JSON.stringify(merged);
@@ -2266,7 +2337,7 @@ async function cloudSync() {
       document.body.appendChild(form);
       form.submit();
 
-      setTimeout(() => {
+      setTimeout(function() {
         form.remove();
         iframe.remove();
         resolve();
@@ -2276,14 +2347,15 @@ async function cloudSync() {
     // 4. Re-render everything
     renderExpenses();
     initPacking();
-    document.querySelectorAll('.itinerary-edit').forEach(s => s.remove());
+    document.querySelectorAll('.itinerary-edit').forEach(function(s) { s.remove(); });
     initItinerary();
+    initTransport();
 
     showToast('✓ 同步完成', 2000);
-  } catch (err) {
+  } catch(err) {
     console.error('Sync error:', err);
-    if (err.message.includes('Failed to fetch')) {
-      const newUrl = prompt('同步失敗，請確認 URL 是否正確：', getSyncUrl());
+    if (err.message && err.message.includes('Failed to fetch')) {
+      var newUrl = prompt('同步失敗，請確認 URL 是否正確：', getSyncUrl());
       if (newUrl) setSyncUrl(newUrl);
     }
     showToast('✗ 同步失敗', 2500);
