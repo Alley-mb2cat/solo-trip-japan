@@ -2334,32 +2334,15 @@ async function cloudSync() {
       });
       localStorage.setItem(SYNC_TS_KEY, String(payload._syncTime));
 
-      await new Promise(function(resolve) {
-        var iframe = document.createElement('iframe');
-        iframe.name = '_syncFrame';
-        iframe.style.display = 'none';
-        document.body.appendChild(iframe);
-
-        var form = document.createElement('form');
-        form.method = 'POST';
-        form.action = url;
-        form.target = iframe.name;
-
-        var input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = 'payload';
-        input.value = JSON.stringify(payload);
-        form.appendChild(input);
-
-        document.body.appendChild(form);
-        form.submit();
-
-        setTimeout(function() {
-          form.remove();
-          iframe.remove();
-          resolve();
-        }, 2500);
+      // Use fetch no-cors (fire-and-forget, works cross-browser)
+      await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload),
+        mode: 'no-cors'
       });
+      // Wait a moment for Apps Script to process
+      await new Promise(function(r) { setTimeout(r, 1500); });
     }
 
     // 4. Re-render everything
