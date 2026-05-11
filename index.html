@@ -2306,13 +2306,15 @@ async function cloudSync() {
   showToast('同步中...', 10000);
 
   try {
-    // 1. Pull from cloud
-    var res = await fetch(url);
+    // 1. Pull from cloud (cache-bust for mobile Safari)
+    var res = await fetch(url + '?_t=' + Date.now(), { cache: 'no-store' });
     var cloud = await res.json();
 
     // 2. Compare timestamps to decide direction
     var localTs = parseInt(localStorage.getItem(SYNC_TS_KEY) || '0');
     var cloudTs = cloud._syncTime || 0;
+
+    console.log('Sync: cloudTs=' + cloudTs + ', localTs=' + localTs);
 
     if (cloudTs > localTs) {
       // Cloud is newer → pull cloud data to local
@@ -2322,6 +2324,7 @@ async function cloudSync() {
         }
       });
       localStorage.setItem(SYNC_TS_KEY, String(cloudTs));
+      showToast('⬇ 從雲端下載更新', 2000);
     } else {
       // Local is newer or same → push local to cloud
       var payload = { _syncTime: Date.now() };
@@ -2366,7 +2369,7 @@ async function cloudSync() {
     initItinerary();
     initTransport();
 
-    showToast('✓ 同步完成', 2000);
+    showToast(cloudTs > localTs ? '✓ 已下載雲端資料' : '✓ 已上傳至雲端', 2000);
   } catch(err) {
     console.error('Sync error:', err);
     if (err.message && err.message.includes('Failed to fetch')) {
