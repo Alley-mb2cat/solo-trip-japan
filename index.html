@@ -2243,6 +2243,7 @@ initDayTabs();
 
 /* ══════ Cloud Sync (Google Sheets) ══════ */
 var SYNC_URL_KEY = 'solo-trip-sync-url';
+var SYNC_TS_KEY = 'solo-trip-sync-ts';
 var SYNC_KEYS = [
   'solo-trip-expenses',
   'solo-trip-packing',
@@ -2309,50 +2310,54 @@ async function cloudSync() {
     var res = await fetch(url);
     var cloud = await res.json();
 
-    // 2. Merge
-    var local = {};
-    SYNC_KEYS.forEach(function(k) {
-      var raw = localStorage.getItem(k);
-      local[k] = raw ? JSON.parse(raw) : null;
-    });
+    // 2. Compare timestamps to decide direction
+    var localTs = parseInt(localStorage.getItem(SYNC_TS_KEY) || '0');
+    var cloudTs = cloud._syncTime || 0;
 
-    var merged = {};
-    SYNC_KEYS.forEach(function(k) {
-      if (cloud[k] != null && local[k] == null) {
-        merged[k] = cloud[k];
-        localStorage.setItem(k, JSON.stringify(cloud[k]));
-      } else if (local[k] != null) {
-        merged[k] = local[k];
-      }
-    });
+    if (cloudTs > localTs) {
+      // Cloud is newer → pull cloud data to local
+      SYNC_KEYS.forEach(function(k) {
+        if (cloud[k] != null) {
+          localStorage.setItem(k, JSON.stringify(cloud[k]));
+        }
+      });
+      localStorage.setItem(SYNC_TS_KEY, String(cloudTs));
+    } else {
+      // Local is newer or same → push local to cloud
+      var payload = { _syncTime: Date.now() };
+      SYNC_KEYS.forEach(function(k) {
+        var raw = localStorage.getItem(k);
+        if (raw) payload[k] = JSON.parse(raw);
+      });
+      localStorage.setItem(SYNC_TS_KEY, String(payload._syncTime));
 
-    // 3. Push merged data back (form + iframe for cross-browser)
-    await new Promise(function(resolve) {
-      var iframe = document.createElement('iframe');
-      iframe.name = '_syncFrame';
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
+      await new Promise(function(resolve) {
+        var iframe = document.createElement('iframe');
+        iframe.name = '_syncFrame';
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
 
-      var form = document.createElement('form');
-      form.method = 'POST';
-      form.action = url;
-      form.target = iframe.name;
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = url;
+        form.target = iframe.name;
 
-      var input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = 'payload';
-      input.value = JSON.stringify(merged);
-      form.appendChild(input);
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'payload';
+        input.value = JSON.stringify(payload);
+        form.appendChild(input);
 
-      document.body.appendChild(form);
-      form.submit();
+        document.body.appendChild(form);
+        form.submit();
 
-      setTimeout(function() {
-        form.remove();
-        iframe.remove();
-        resolve();
-      }, 2500);
-    });
+        setTimeout(function() {
+          form.remove();
+          iframe.remove();
+          resolve();
+        }, 2500);
+      });
+    }
 
     // 4. Re-render everything
     renderExpenses();
