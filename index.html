@@ -358,6 +358,32 @@
   .transport-edit-item:hover .btn-del-transport { color: var(--muted); }
   .transport-edit-item .btn-del-transport:hover { color: var(--accent); }
 
+  .transport-edit-item .btn-link-transport {
+    background: none;
+    border: none;
+    color: transparent;
+    cursor: pointer;
+    font-size: .72rem;
+    padding: .1rem .2rem;
+    flex-shrink: 0;
+    transition: color .2s;
+  }
+  .transport-edit-item:hover .btn-link-transport { color: var(--muted); }
+  .transport-edit-item .btn-link-transport:hover { color: var(--blue); }
+  .transport-edit-item .btn-link-transport.has-link { color: var(--blue); }
+
+  .transport-edit-item .link-preview {
+    font-size: .7rem;
+    color: var(--blue);
+    text-decoration: underline;
+    margin-left: .2rem;
+    flex-shrink: 0;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .transport-add-row {
     display: flex;
     gap: .3rem;
@@ -1994,18 +2020,40 @@ function initTransport() {
     // Rebuild content
     content.innerHTML = '';
 
-    items.forEach(function(text, idx) {
+    // Normalize items to {text, link} objects
+    var normItems = items.map(function(it) {
+      if (typeof it === 'string') return { text: it.replace(/<[^>]+>/g, ''), link: '' };
+      return { text: it.text || '', link: it.link || '' };
+    });
+
+    normItems.forEach(function(item, idx) {
       var row = document.createElement('div');
       row.className = 'transport-edit-item';
 
       var input = document.createElement('input');
       input.type = 'text';
-      input.value = text.replace(/<[^>]+>/g, ''); // strip HTML for editing
+      input.value = item.text;
       input.addEventListener('change', function() {
         var cur = getTransportData();
-        if (!cur[key]) cur[key] = { items: items.slice(), note: note };
-        cur[key].items[idx] = input.value.trim();
+        if (!cur[key]) cur[key] = { items: normItems.slice(), note: note };
+        cur[key].items[idx] = { text: input.value.trim(), link: item.link };
         saveTransportData(cur);
+      });
+
+      var linkBtn = document.createElement('button');
+      linkBtn.className = 'btn-link-transport' + (item.link ? ' has-link' : '');
+      linkBtn.textContent = '🔗';
+      linkBtn.title = item.link || '新增連結';
+      linkBtn.addEventListener('click', function() {
+        var newLink = prompt('輸入連結 URL（留空移除）：', item.link || 'https://');
+        if (newLink === null) return;
+        newLink = newLink.trim();
+        if (newLink === 'https://') newLink = '';
+        var cur = getTransportData();
+        if (!cur[key]) cur[key] = { items: normItems.slice(), note: note };
+        cur[key].items[idx] = { text: item.text, link: newLink };
+        saveTransportData(cur);
+        initTransport();
       });
 
       var delBtn = document.createElement('button');
@@ -2013,13 +2061,22 @@ function initTransport() {
       delBtn.innerHTML = '&#10005;';
       delBtn.addEventListener('click', function() {
         var cur = getTransportData();
-        if (!cur[key]) cur[key] = { items: items.slice(), note: note };
+        if (!cur[key]) cur[key] = { items: normItems.slice(), note: note };
         cur[key].items.splice(idx, 1);
         saveTransportData(cur);
         initTransport();
       });
 
       row.appendChild(input);
+      if (item.link) {
+        var linkA = document.createElement('a');
+        linkA.className = 'link-preview';
+        linkA.href = item.link;
+        linkA.target = '_blank';
+        linkA.textContent = '開啟';
+        row.appendChild(linkA);
+      }
+      row.appendChild(linkBtn);
       row.appendChild(delBtn);
       content.appendChild(row);
     });
@@ -2035,7 +2092,7 @@ function initTransport() {
       noteInput.style.fontSize = '.78rem';
       noteInput.addEventListener('change', function() {
         var cur = getTransportData();
-        if (!cur[key]) cur[key] = { items: items.slice(), note: note };
+        if (!cur[key]) cur[key] = { items: normItems.slice(), note: note };
         cur[key].note = noteInput.value.trim();
         saveTransportData(cur);
       });
@@ -2044,7 +2101,7 @@ function initTransport() {
       noteDelBtn.innerHTML = '&#10005;';
       noteDelBtn.addEventListener('click', function() {
         var cur = getTransportData();
-        if (!cur[key]) cur[key] = { items: items.slice(), note: note };
+        if (!cur[key]) cur[key] = { items: normItems.slice(), note: note };
         cur[key].note = '';
         saveTransportData(cur);
         initTransport();
@@ -2069,8 +2126,8 @@ function initTransport() {
       var val = addInput.value.trim();
       if (!val) return;
       var cur = getTransportData();
-      if (!cur[key]) cur[key] = { items: items.slice(), note: note };
-      cur[key].items.push(val);
+      if (!cur[key]) cur[key] = { items: normItems.slice(), note: note };
+      cur[key].items.push({ text: val, link: '' });
       saveTransportData(cur);
       addInput.value = '';
       initTransport();
